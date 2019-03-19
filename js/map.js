@@ -1,15 +1,15 @@
 // Генерация объектов для массива
-
-
 var avatars = [];
 
 function avatarGeneration(x) {
   for (i = 1; i <= x; i++) {
-    avatars[i - 1] = 'user0' + i + '.png';
+    avatars[i - 1] = '../img/avatars/user0' + i + '.png';
   };
   return avatars;
 }
 avatarGeneration(8);
+console.log(avatarGeneration(8));
+
 
 
 // Массив заголовков предложения
@@ -17,18 +17,39 @@ var titleOffer = ["Большая уютная квартира", "Малень�
 
 
 // Массив из 8 сгенерированных js объектов
-var i = 2;
 var similarAds = [{
-  "author": {
-    "avatar": 'img/avatars/' + avatars[i]
+  author: {
+    avatar: avatarGeneration(8)[1]
   },
-  "offer": {
-    "title": "titleOffer[i]"
+  offer: {
+    title: titleOffer[i],
   }
 }];
 
-console.log(similarAds[0].avatar);
-console.log(avatars[i]);
+
 
 var activeMap = document.querySelector('.map');
 activeMap.classList.remove('map--faded');
+
+
+/*
+
+
+
+    address: (location.x, location.y),
+    price: randomPrice,
+    type: typeOfHousing,
+    rooms: numberOfRooms,
+    guests: guestsRandom,
+    checkin: checkInTime,
+    checkout: checkOutTime,
+    features: featuresRandom,
+    description: '',
+    photos: photosRandom
+  },
+  location: {
+    x: mapX,
+    y: mapY
+  }
+}];
+*/
