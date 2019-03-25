@@ -75,15 +75,42 @@ var similarAdsArr = [similarAds];
 var activeMap = document.querySelector('.map');
 activeMap.classList.remove('map--faded');
 
+// Создаем метку на Карте
+Отловил класс элемента в который добавляется метка;
+
+var template = document.querySelector('.map__pins'); // Переменная содержащая элемент в который добавляется пин
+var mapPin = document.querySelector('#pin').content.querySelector('.map__pin'); // Переменная для обращения к шаблону пина
+var pinFragment = document.createDocumentFragment()
+
+
+// var pinButton = document.createElement('button');
+// var pinImg = document.createElement('img');
+// pin.appendChild(pinButton);
+//
+//
+// var mapPins = document.querySelector('.map__pins');
+// mapPins.appendChild(pin);
+
+
+
+
 // Получаем метку из template .map__pin
-var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
-var mapPin = mapPinElement.cloneNode(true);
-mapPin.setAttribute("style", "left: 100px; top: 200px;", "src", "../img/avatars/user01.png", "alt", "заголовок объявления");
+// var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
+// var mapPin = mapPinElement.cloneNode(true);
 
-var mapPins = document.querySelector(".mapPins");
-mapPins = document.createDocumentFragment();
-mapPins.appendChild(mapPin);
 
-var template = document.querySelector('template').content.querySelector('.map__card');
-var element = template.cloneNode(true);
-activeMap.appendChild(element);
+// mapPin.setAttribute("style", "left: 500px; top: 200px;", "src", "../img/avatars/user05.png", "alt", "заголовок объявления");
+// console.log(mapPin);
+// activeMap.appendChild(mapPin);
+
+// делаем вспомогательный DocumentFragment
+
+// var mapPins = document.querySelector(".mapPins");
+// // console.log(mapPins);
+// var fragment = document.createDocumentFragment();
+// fragment.appendChild(mapPin);
+
+
+// var template = document.querySelector('template').content.querySelector('.map__card');
+// var element = template.cloneNode(true);
+// activeMap.appendChild(element);

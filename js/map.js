@@ -1,116 +1,28 @@
-/*
-// Генерация объектов для массива
-var avatars = [];
+var x = 8;
+var i = 3;
+var randomPhotos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+descriptionApartament = ["Маленькая уютная квартира"];
 
-function avatarGeneration(x) {
-  for (i = 1; i <= x; i++) {
-    avatars[i - 1] = '../img/avatars/user0' + i + '.png';
-  };
-  return avatars;
-}
-avatarGeneration(8);
-console.log(avatarGeneration(8));
-
-
-
-// Массив заголовков предложения
-var titleOffer = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
-
-
-// Массив из 8 сгенерированных js объектов
-var similarAds = [{
+var similarAds = {
   author: {
-    avatar: avatarGeneration(8)[1]
+    avatar: "../img/avatar/user" + x + ".png"
   },
   offer: {
-    title: titleOffer[i],
-  }
-}];
-*/
-/*
-    address: (location.x, location.y),
+    title: randomTitle[x], // количество элементов в массиве совпадает с количеством фотографий 01-08
+    address: location.x,
+    location.y,
     price: randomPrice,
-    type: typeOfHousing,
-    rooms: numberOfRooms,
-    guests: guestsRandom,
-    checkin: checkInTime,
-    checkout: checkOutTime,
-    features: featuresRandom,
-    description: '',
-    photos: photosRandom
+    type: randomType,
+    rooms: randomRooms,
+    guests: randomGuests,
+    checkin: randomCheckin,
+    checkout: randomCheckout,
+    features: randomFeatures,
+    description: "",
+    photos: randomPhotos[i];
   },
   location: {
     x: mapX,
     y: mapY
   }
-}];
-*/
-
-var similarAds = {
-  author: {
-    avatar: "../img/avatar/user01.png"
-  },
-  offer: {
-    title: "Большая уютная квартира",
-    address: "600, 350",
-    price: 300000,
-    type: "bungalo",
-    rooms: 5,
-    guests: 15,
-    checkin: "13:00",
-    checkout: "14:00",
-    features: ["wifi", "parking", "washer"],
-    description: "",
-    photos: ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"]
-  },
-  location: {
-    x: 250,
-    y: 500
-  }
 };
-
-var similarAdsArr = [similarAds];
-
-// Делаем карту активной
-var activeMap = document.querySelector('.map');
-activeMap.classList.remove('map--faded');
-
-// Создаем метку на Карте
-Отловил класс элемента в который добавляется метка;
-
-var template = document.querySelector('.map__pins'); // Переменная содержащая элемент в который добавляется пин
-var mapPin = document.querySelector('#pin').content.querySelector('.map__pin'); // Переменная для обращения к шаблону пина
-var pinFragment = document.createDocumentFragment()
-
-
-// var pinButton = document.createElement('button');
-// var pinImg = document.createElement('img');
-// pin.appendChild(pinButton);
-//
-//
-// var mapPins = document.querySelector('.map__pins');
-// mapPins.appendChild(pin);
-
-
-
-
-// Получаем метку из template .map__pin
-// var mapPinElement = document.querySelector('template').content.querySelector('.map__pin');
-// var mapPin = mapPinElement.cloneNode(true);
-
-
-// mapPin.setAttribute("style", "left: 500px; top: 200px;", "src", "../img/avatars/user05.png", "alt", "заголовок объявления");
-// console.log(mapPin);
-// activeMap.appendChild(mapPin);
-
-// делаем вспомогательный DocumentFragment
-
-// var mapPins = document.querySelector(".mapPins");
-// // console.log(mapPins);
-// var fragment = document.createDocumentFragment();
-// fragment.appendChild(mapPin);
-
-
-// var template = document.querySelector('template').content.querySelector('.map__card');
-// var element = template.cloneNode(true);
-// activeMap.appendChild(element);
