@@ -75,6 +75,6 @@ var adsAll = createAd(ADS_NUBMER); // Созданный в функции ма�
 
 
 console.log("Массив удобств: " + featureList);
-console.log("Обработанный массив: " + featureArr);
+console.log("Обработанный массив: " + featureListUnique(featureList));
 
 // console.log('Средняя цена: ' + randomPrice);
