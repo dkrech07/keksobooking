@@ -18,9 +18,9 @@ var FEATURES_LIST = ["wifi", "dishwasher", "parking", "washer", "elevator", "con
 
 var randomPhotos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
-var featureArr = []; // Генерирую массив случайных особенностей;
+var featureList = []; // Генерирую массив случайных особенностей;
 for (var i = 0; i < getRandom(FEATURES_LIST.length); i++) {
-  featureArr.push(FEATURES_LIST[getRandom(FEATURES_LIST.length)]);
+  featureList[i] = (FEATURES_LIST[getRandom(FEATURES_LIST.length)]);
 }
 
 
@@ -55,7 +55,7 @@ function createAd(n) { // Функция генерации предложени
         guests: getRandom(GUESTS_NUMBER) + 1, // Количество гостей;
         checkin: CHECK_IN[getRandom(CHECK_IN.length)], // Случайное время заезда, формируется из массива CHECK_IN;
         checkout: CHECK_OUT[getRandom(CHECK_OUT.length)], // Случайное время выезда, формируется из массива CHECK_OUT;
-        features: featureArr.join(", ");Получаю из массива случайных особенностей строку;
+        features: featureList //Получаю из массива случайных особенностей строку;
       }
     };
     adsArray[i] = similarAds; // Кладу созданный объект в массив;
