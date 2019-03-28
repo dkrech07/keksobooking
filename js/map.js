@@ -1,7 +1,9 @@
 // СПИСОК КОНСТАНТ
 var ADS_NUBMER = 8; // Количество объявлений в сформированном массиве;
-var LOCATION_X = 600;
-var LOCATION_Y = 1000;
+var MIN_X = 0;
+var MAX_X = 1000;
+var MIN_Y = 0;
+var MAX_Y = 600;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var ROOMS_NUMBER = 5;
@@ -13,9 +15,9 @@ var TYPE_HOUSING = ["palace", "flat", "house", "bungalo"];
 var CHECK_IN = ["12:00", "13:00", "14:00"];
 var CHECK_OUT = ["12:00", "13:00", "14:00"];
 var FEATURES_LIST = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+var PHOTOS_RANDOM = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 
 // СПИСОК ПЕРЕМЕННЫХ
-var randomPhotos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
 var featureList = []; // Генерирую массив случайных особенностей;
 var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
 var similarAds = {}; // Обявление. Оъект в который будут записаны данные после выполнения цикла for;
@@ -34,6 +36,9 @@ function getRandomDouble(min, max) { // Генерация случайного 
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+var locationX = getRandom(MIN_X, MAX_X);
+var locationY = getRandom(MIN_Y, MAX_Y);
+
 function featureListUnique(arr) { // Оставить уникальные элементы массива;
   var result = [];
   nextInput:
@@ -47,6 +52,16 @@ function featureListUnique(arr) { // Оставить уникальные эл�
   return result;
 }
 
+function shuffleArray(array) { // Алгоритм Фишера-Йейтса работает, выбирая один случайный элемент для каждого исходного элемента массива, а затем исключая его из следующего розыгрыша;
+  for (var i = array.length - 1; i > 0; i--) { // Использую его для перетасовки элементов массива PHOTOS_RANDOM;
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+
 function createAd(n) { // Функция генерации предложения;
   for (var i = 0; i < n; i++) { //Цикл пробегает по объекту от i до i < ADS_NUBMER, 8 = 0,1,2,3,4,5,6,7;
 
@@ -56,14 +71,19 @@ function createAd(n) { // Функция генерации предложени
       },
       offer: {
         title: DESCRIPTION_APARTAMENT[i],
-        address: getRandom(LOCATION_X) + ", " + getRandom(LOCATION_Y),
+        address: locationX + ", " + locationY,
         price: getRandomDouble(MIN_PRICE, MAX_PRICE), // Получил случайную минимальную и максимальную цену;
         type: TYPE_HOUSING[getRandom(TYPE_HOUSING.length)], // Получил случайный тип жилья, основываясь на длине массива со списоком типов жилья;
         rooms: getRandom(ROOMS_NUMBER) + 1, // Количество комнат: Получив значение 5, getRandom выдаст число от 0 до 4. Чтобы получить число от 1 до 5, прибавляю 1;
         guests: getRandom(GUESTS_NUMBER) + 1, // Количество гостей;
         checkin: CHECK_IN[getRandom(CHECK_IN.length)], // Случайное время заезда, формируется из массива CHECK_IN;
         checkout: CHECK_OUT[getRandom(CHECK_OUT.length)], // Случайное время выезда, формируется из массива CHECK_OUT;
-        features: featureListUnique(featureList) //Получаю из массива случайных особенностей строку;
+        features: featureListUnique(featureList), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
+        photos: shuffleArray(PHOTOS_RANDOM) //С помощью алгоритма Фишера-Йейтса получаю массив с перетасованными элементами;
+      },
+      location: {
+        x: locationX,
+        y: locationY
       }
     };
     adsArray[i] = similarAds; // Кладу созданный объект в массив;
@@ -73,8 +93,8 @@ function createAd(n) { // Функция генерации предложени
 
 var adsAll = createAd(ADS_NUBMER); // Созданный в функции массив объявлений с объектами;
 
+// Активация карты;
+var mapActive = document.querySelector('.map');
+mapActive.classList.remove('map--faded');
 
-console.log("Массив удобств: " + featureList);
-console.log("Обработанный массив: " + featureListUnique(featureList));
-
-// console.log('Средняя цена: ' + randomPrice);
+// Создание D0M-элементов на основе массива объектов adsAll;
