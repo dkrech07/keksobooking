@@ -1,5 +1,5 @@
 // СПИСОК КОНСТАНТ
-var ADS_NUBMER = 8; // Количество объявлений в сформированном массиве;
+var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
 var MIN_X = 10;
 var MAX_X = 1000;
 var MIN_Y = 10;
@@ -62,12 +62,12 @@ function shuffleArray(array) { // Алгоритм Фишера-Йейтса р�
 function createAd(n) { // Функция генерации предложения;
   for (var i = 0; i < n; i++) { //Цикл пробегает по объекту от i до i < ADS_NUBMER, 8 = 0,1,2,3,4,5,6,7;
 
-    var locationX = getRandom(MIN_X, MAX_X);
-    var locationY = getRandom(MIN_Y, MAX_Y);
+    var locationX = getRandomDouble(MIN_X, MAX_X); // На основе максимальной и минимальной координаты, герерирую случайную координату X;
+    var locationY = getRandomDouble(MIN_Y, MAX_Y); // На основе максимальной и минимальной координаты, герерирую случайную координату Y;
 
     similarAds = {
       author: {
-        avatar: "../img/avatar/user0" + i + ".png"
+        avatar: "img/avatars/user0" + (i + 1) + ".png"
       },
       offer: {
         title: DESCRIPTION_APARTAMENT[i],
@@ -82,8 +82,8 @@ function createAd(n) { // Функция генерации предложени
         photos: shuffleArray(PHOTOS_RANDOM) //С помощью алгоритма Фишера-Йейтса получаю массив с перетасованными элементами;
       },
       location: {
-        x: locationX, // На основе максимальной и минимальной координаты, герерирую случайную координату X;
-        y: locationY // На основе максимальной и минимальной координаты, герерирую случайную координату Y;
+        x: locationX,
+        y: locationY
       }
     };
     adsArray[i] = similarAds; // Кладу созданный объект в массив;
@@ -98,5 +98,25 @@ var mapActive = document.querySelector('.map');
 mapActive.classList.remove('map--faded');
 
 // Создание D0M-элементов на основе массива объектов adsAll;
+var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
+var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
 
-console.log(adsAll);
+for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления Пинов в DocumentFragment;
+
+  var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
+
+  // Меняею атрибуты через style;
+  // pinElement.style.left = adsAll[i].location.x + 'px';
+  // pinElement.style.top = adsAll[i].location.y + 'px';
+  // pinElement.querySelector('img').style.alt = adsAll[i].offer.title;
+
+  // Еще могу поменять атрибуты через setAttribute;
+  pinElement.setAttribute('style', 'left: ' + adsAll[i].location.x + 'px; ' + 'top: ' + adsAll[i].location.y + 'px');
+  pinElement.querySelector('img').setAttribute('src', adsAll[i].author.avatar);
+  pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
+
+  pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
+
+}
+
+var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
