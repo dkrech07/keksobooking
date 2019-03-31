@@ -8,6 +8,8 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var ROOMS_NUMBER = 5;
 var GUESTS_NUMBER = 10;
+var PIN_WIDTH = 40;
+var PIN_HEIGHT = 62;
 
 // СПИСОК МАССИВОВ И ОБЪЕКТОВ
 var DESCRIPTION_APARTAMENT = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый гостевой домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
@@ -106,8 +108,8 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
   var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
   // Меняею атрибуты через DOM API: cвойства style, src, alt;
-  pinElement.style.left = adsAll[i].location.x + 'px';
-  pinElement.style.top = adsAll[i].location.y + 'px';
+  pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
+  pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
   pinElement.querySelector('img').src = adsAll[i].author.avatar;
   pinElement.querySelector('img').alt = adsAll[i].offer.title;
 
@@ -121,3 +123,28 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
 }
 
 var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
+
+// Наполняю карточку объявлениями
+function popupElement(i) {
+  var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея
+  var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
+
+  //Заменяю содержимое карточки данными из массива объектов;
+  popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
+  popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
+  popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена
+  popupCard.querySelector('.popup__type').textContent = adsAll[i].offer.type; // Тип жилья. Пока что вывел данные из массива;
+  popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
+  popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
+  popupCard.querySelector('.popup__features') // Вывести список всех удобств;
+  popupCard.querySelector('.popup__photos').src = adsAll[i].offer.photos; // Нужно вывести изображения;
+
+  var newCard = mapActive.appendChild(popupCard); // Добавил карточу на карту;
+  return newCard;
+}
+
+popupElement(0);
+
+
+// mapPins.insertBefore(mapActive.querySelector('.map__filters-container'), popupCard);
+// // popupCard.querySelector('.popup__title')
