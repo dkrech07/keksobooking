@@ -136,8 +136,8 @@ function popupElement(i) {
   popupCard.querySelector('.popup__type').textContent = adsAll[i].offer.type; // Тип жилья. Пока что вывел данные из массива;
   popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
   popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
-  popupCard.querySelector('.popup__features') // Вывести список всех удобств;
-  popupCard.querySelector('.popup__photos').src = adsAll[i].offer.photos; // Нужно вывести изображения;
+  // popupCard.querySelector('.popup__features') // Вывести список всех удобств;
+  // popupCard.querySelector('.popup__photos').src = adsAll[i].offer.photos; // Нужно вывести изображения;
 
   var newCard = mapActive.appendChild(popupCard); // Добавил карточу на карту;
   return newCard;
