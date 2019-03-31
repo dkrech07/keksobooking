@@ -105,15 +105,16 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
 
   var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
-  // Меняею атрибуты через style;
-  // pinElement.style.left = adsAll[i].location.x + 'px';
-  // pinElement.style.top = adsAll[i].location.y + 'px';
-  // pinElement.querySelector('img').style.alt = adsAll[i].offer.title;
+  // Меняею атрибуты через DOM API: cвойства style, src, alt;
+  pinElement.style.left = adsAll[i].location.x + 'px';
+  pinElement.style.top = adsAll[i].location.y + 'px';
+  pinElement.querySelector('img').src = adsAll[i].author.avatar;
+  pinElement.querySelector('img').alt = adsAll[i].offer.title;
 
-  // Еще могу поменять атрибуты через setAttribute;
-  pinElement.setAttribute('style', 'left: ' + adsAll[i].location.x + 'px; ' + 'top: ' + adsAll[i].location.y + 'px');
-  pinElement.querySelector('img').setAttribute('src', adsAll[i].author.avatar);
-  pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
+  // Еще могу поменять атрибуты через setAttribute; - но не использую этот способ)))
+  // pinElement.setAttribute('style', 'left: ' + adsAll[i].location.x + 'px; ' + 'top: ' + adsAll[i].location.y + 'px');
+  // pinElement.querySelector('img').setAttribute('src', adsAll[i].author.avatar);
+  // pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
 
   pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
