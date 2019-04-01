@@ -18,6 +18,13 @@ var CHECK_IN = ["12:00", "13:00", "14:00"];
 var CHECK_OUT = ["12:00", "13:00", "14:00"];
 var FEATURES_LIST = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var PHOTOS_RANDOM = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+// ["Дворец", "Квартира", "Дом", "Бунгало"]
+var TYPE_HOUSING_RU = {
+  palace: "Дворец",
+  flat: "Квартира",
+  house: "Дом",
+  bungalo: "Бунгало"
+};
 
 // СПИСОК ПЕРЕМЕННЫХ
 var featureList = []; // Генерирую массив случайных особенностей;
@@ -119,7 +126,6 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
   // pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
 
   pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
-
 }
 
 var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
@@ -133,7 +139,8 @@ function popupElement(i) {
   popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
   popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
   popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена
-  popupCard.querySelector('.popup__type').textContent = adsAll[i].offer.type; // Тип жилья. Пока что вывел данные из массива;
+  popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
+
   popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
   popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
   // popupCard.querySelector('.popup__features') // Вывести список всех удобств;
