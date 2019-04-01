@@ -18,7 +18,6 @@ var CHECK_IN = ["12:00", "13:00", "14:00"];
 var CHECK_OUT = ["12:00", "13:00", "14:00"];
 var FEATURES_LIST = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
 var PHOTOS_RANDOM = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-// ["Дворец", "Квартира", "Дом", "Бунгало"]
 var TYPE_HOUSING_RU = {
   palace: "Дворец",
   flat: "Квартира",
@@ -42,10 +41,10 @@ function getRandomDouble(min, max) { // Генерация случайного 
 }
 
 for (var i = 0; i < getRandom(FEATURES_LIST.length) + 1; i++) { // Цикл для записи случайных элементов в массив;
-  featureList[i] = (FEATURES_LIST[getRandom(FEATURES_LIST.length)]);
+  featureList[i] = (FEATURES_LIST[getRandom(FEATURES_LIST.length)]); // Получаю массив случайных удобств: "wifi", "dishwasher", "parking"...;
 }
 
-function featureListUnique(arr) { // Оставить уникальные элементы массива;
+function featureListUnique(arr) { // Оставить уникальные элементы массива удобств: "wifi", "dishwasher", "parking"...;
   var result = [];
   nextInput:
     for (var i = 0; i < arr.length; i++) {
@@ -130,28 +129,36 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
 
 var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 
-// Наполняю карточку объявлениями
+// Создение DOM-элементов для списка удобств;
+
+function featureCreate() {
+  var featureTemplate = document.querySelector('template').content.querySelector('.popup__features'); // Отловил блок с удобствами;
+  var featureElement = featureTemplate.cloneNode(true); // Склонировал шаблон блока с удобствами (без внетренного наполнения)
+  var featureFragment = document.createDocumentFragment(); // Создал фразмент для записи новых преимуществ <li></li> и добавления из в список преимуществ <ul></ul>;
+  var featureNew = document.createElement("li"); // Создал элемент li для записи во фрагмент
+  featureNew.classList.add('feature', 'feature--wifi'); // Добавил класс;
+  featureFragment.appendChild(featureNew); // Добавляю созданное преимущество в DocumentFragment;
+  return featureFragment;
+}
+
+console.log(featureCreate());
+
+// Наполняю карточку объявлениями;
 function popupElement(i) {
-  var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея
+  var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
   var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
 
   //Заменяю содержимое карточки данными из массива объектов;
   popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
   popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
-  popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена
+  popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
   popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
-
   popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
   popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
-  // popupCard.querySelector('.popup__features') // Вывести список всех удобств;
-  // popupCard.querySelector('.popup__photos').src = adsAll[i].offer.photos; // Нужно вывести изображения;
 
+  popupCard.querySelector('.popup__features').appendChild(featureCreate());
   var newCard = mapActive.appendChild(popupCard); // Добавил карточу на карту;
   return newCard;
 }
 
-popupElement(0);
-
-
-// mapPins.insertBefore(mapActive.querySelector('.map__filters-container'), popupCard);
-// // popupCard.querySelector('.popup__title')
+popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
