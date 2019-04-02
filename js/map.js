@@ -129,22 +129,33 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
 
 var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 
-// Создение DOM-элементов для списка удобств;
-
-function featureCreate() {
-  var featureTemplate = document.querySelector('template').content.querySelector('.popup__features'); // Отловил блок с удобствами;
-  var featureElement = featureTemplate.cloneNode(true); // Склонировал шаблон блока с удобствами (без внетренного наполнения)
-  var featureFragment = document.createDocumentFragment(); // Создал фразмент для записи новых преимуществ <li></li> и добавления из в список преимуществ <ul></ul>;
-  var featureNew = document.createElement("li"); // Создал элемент li для записи во фрагмент
-  featureNew.classList.add('feature', 'feature--wifi'); // Добавил класс;
-  featureFragment.appendChild(featureNew); // Добавляю созданное преимущество в DocumentFragment;
-  return featureFragment;
+// Создение DOM-элементов для списка удобств: добавление одной иконки;
+function featureCreate(feature) { // Получаем на вход значение элемента миссива удобств;
+  var featureAdd = document.createElement('li'); // Создаем контейнер <li></li>;
+  featureAdd.classList.add('feature'); // Создаю класс .feature;
+  featureAdd.classList.add('feature--' + feature); // Создаю класс feature__ + название элемента массива;
+  return featureAdd; // Возвращаю созданный элемент с назначенными классами;
 }
 
-console.log(featureCreate());
+// Создение DOM-элементов для списка удобств: создание списка эконок;
+function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
+  var fragment = document.createDocumentFragment(); // Создаем фрагмент для вывода в карточку всех удобств;
+  for (var i = 0; i < featureCard.length; i++) { // Создаем цикл для создания и добавления в DocumentFragment дом-элементов с нужными классами;
+    var feature = featureCreate(featureCard[i]); // Обращаеся к функции featureCreate для создания dom-элементов с классами, соответствующими значениям элементов массива;
+    fragment.appendChild(feature); // ДОбавляем созданние элементы в DocumentFragment;
+  }
+  return fragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
+}
+
+// Удаление всех дочерних элементов, описание на MDN: Node.removeChild "Удаление всех дочерних элементов";
+function removeChild(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
 
 // Наполняю карточку объявлениями;
-function popupElement(i) {
+function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива;
   var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
   var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
 
@@ -155,10 +166,13 @@ function popupElement(i) {
   popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
   popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
   popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
+  removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
+  popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
+  popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
 
-  popupCard.querySelector('.popup__features').appendChild(featureCreate());
-  var newCard = mapActive.appendChild(popupCard); // Добавил карточу на карту;
+
+  var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
 }
 
-popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
+popupElement(2); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
