@@ -86,6 +86,7 @@ function createAd(n) { // Функция генерации предложени
         guests: getRandom(GUESTS_NUMBER) + 1, // Количество гостей;
         checkin: CHECK_IN[getRandom(CHECK_IN.length)], // Случайное время заезда, формируется из массива CHECK_IN;
         checkout: CHECK_OUT[getRandom(CHECK_OUT.length)], // Случайное время выезда, формируется из массива CHECK_OUT;
+        description: '',
         features: featureListUnique(featureList), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
         photos: shuffleArray(PHOTOS_RANDOM) //С помощью алгоритма Фишера-Йейтса получаю массив с перетасованными элементами;
       },
@@ -139,12 +140,12 @@ function featureCreate(feature) { // Получаем на вход значен
 
 // Создение DOM-элементов для списка удобств: создание списка эконок;
 function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
-  var fragment = document.createDocumentFragment(); // Создаем фрагмент для вывода в карточку всех удобств;
+  var featureFragment = document.createDocumentFragment(); // Создаем фрагмент для вывода в карточку всех удобств;
   for (var i = 0; i < featureCard.length; i++) { // Создаем цикл для создания и добавления в DocumentFragment дом-элементов с нужными классами;
     var feature = featureCreate(featureCard[i]); // Обращаеся к функции featureCreate для создания dom-элементов с классами, соответствующими значениям элементов массива;
-    fragment.appendChild(feature); // ДОбавляем созданние элементы в DocumentFragment;
+    featureFragment.appendChild(feature); // ДОбавляем созданние элементы в DocumentFragment;
   }
-  return fragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
+  return featureFragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
 }
 
 // Удаление всех дочерних элементов, описание на MDN: Node.removeChild "Удаление всех дочерних элементов";
@@ -152,6 +153,32 @@ function removeChild(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
+}
+
+// Создание DOM-элементов для списка фотографий: одна фотография;
+function photoCreate(photo) {
+  var photoTemplate = document.querySelector('template').content.querySelector('.popup__pictures'); // Получен шаблон списка фотографий;
+  var photoNew = photoTemplate.cloneNode(true); // Список фотографий скопирован;
+  var photoElement = photoNew.querySelector('li'); // Найден элемент li;
+  photoElement.querySelector('img').style.width = 50 + 'px'; // Задаем картике высоту в 50 px;
+  photoElement.querySelector('img').style.height = 50 + 'px'; // Задаем картинке ширину в 50px;
+  photoElement.querySelector('img').src = photo; // Задаем картинке src соответствующий элементу в массиве со ссылками на фотографии;
+  var photoImg = photoElement.querySelector('img'); // Найден элемент img, для изменения src;
+  return photoElement; // Возвращаем dom-элемент <li><img scr="..."</li>, с заданным src;
+}
+
+// console.log(adsAll[1].offer.photos);
+// console.log(photoCreate(adsAll[1].offer.photos[0]));
+
+// Создание DOM - элементов для списка фотографий: вывод всех фотографий;
+function photoCreateAll(photoArr) { // На вход получаем массив со ссылками на фотографии;
+  var photoFragment = document.createDocumentFragment(); //Создан DocumentFragment для вставки фотографий в список;
+  for (var i = 0; i < photoArr.length; i++) { // Создаем цикл для добавления в DocumentFragment дом-элементов <img></img> с заданными из массива src;
+    var photo = photoCreate(photoArr[i]); // Создаем переменную photo и записываем в нее dom-элемент созданный в функции photoCreate;
+    photoFragment.appendChild(photo); // Добавляем полученные в цикле dom-элементы в DocumentFragment;
+    //     photoFragment.appendChild(photo);
+  }
+  return photoFragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
 }
 
 // Наполняю карточку объявлениями;
@@ -169,10 +196,12 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
   popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
   popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
-
+  removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
+  popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
+  popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
 
   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
 }
 
-popupElement(2); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
+popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
