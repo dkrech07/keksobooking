@@ -2,8 +2,8 @@
 var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
 var MIN_X = 10;
 var MAX_X = 1000;
-var MIN_Y = 10;
-var MAX_Y = 600;
+var MIN_Y = 130;
+var MAX_Y = 630;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var ROOMS_NUMBER = 5;
@@ -26,13 +26,12 @@ var TYPE_HOUSING_RU = {
 };
 
 // СПИСОК ПЕРЕМЕННЫХ
-var featureList = []; // Генерирую массив случайных особенностей;
+var featureUnique = []; // Генерирую массив случайных особенностей;
 var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
 var similarAds = {}; // Обявление. Оъект в который будут записаны данные после выполнения цикла for;
 var adsAll = createAd(ADS_NUBMER); // Созданный в функции массив объявлений с объектами;
+var mapPins = createPin(ADS_NUBMER); // Пины, выведенные на карту;
 
-
-// СПИСОК ФУНКЦИЙ
 // Генерация случайного числа с округлением, полученное значение всегда меньше n;
 function getRandom(n) {
   n = Math.floor(n * Math.random());
@@ -44,13 +43,13 @@ function getRandomDouble(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-
-// Генерация списка случайного списка удобств;
-function featureListUnique(arr) {
+// Генерация случайного списка удобств;
+function getFeatureList(arr) {
   // Получаю массив случайных удобств;
   for (var i = 0; i < getRandom(FEATURES_LIST.length) + 1; i++) { // Цикл для записи случайных элементов в массив;
-    featureList[i] = (FEATURES_LIST[getRandom(FEATURES_LIST.length)]); // Записываю значение в массив: "wifi", "dishwasher", "parking"...
+    featureUnique[i] = FEATURES_LIST[getRandom(FEATURES_LIST.length)]; // Записываю значение в массив: "wifi", "dishwasher", "parking"...
   }
+
   // Оставляю уникальные элементы массива удобств: "wifi", "dishwasher", "parking"...;
   var result = [];
   nextInput:
@@ -78,10 +77,8 @@ function shuffleArray(array) { // Алгоритм Фишера-Йейтса р�
 // Генерация массива предложений;
 function createAd(n) {
   for (var i = 0; i < n; i++) { //Цикл пробегает по объекту от i до i < ADS_NUBMER, 8 = 0,1,2,3,4,5,6,7;
-
     var locationX = getRandomDouble(MIN_X, MAX_X); // На основе максимальной и минимальной координаты, герерирую случайную координату X;
     var locationY = getRandomDouble(MIN_Y, MAX_Y); // На основе максимальной и минимальной координаты, герерирую случайную координату Y;
-
     similarAds = {
       author: {
         avatar: "img/avatars/user0" + (i + 1) + ".png"
@@ -96,7 +93,7 @@ function createAd(n) {
         checkin: CHECK_IN[getRandom(CHECK_IN.length)], // Случайное время заезда, формируется из массива CHECK_IN;
         checkout: CHECK_OUT[getRandom(CHECK_OUT.length)], // Случайное время выезда, формируется из массива CHECK_OUT;
         description: '',
-        features: featureListUnique(featureList), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
+        features: getFeatureList(featureUnique), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
         photos: shuffleArray(PHOTOS_RANDOM) //С помощью алгоритма Фишера-Йейтса получаю массив с перетасованными элементами;
       },
       location: {
@@ -114,43 +111,29 @@ var mapActive = document.querySelector('.map');
 mapActive.classList.remove('map--faded');
 
 // Создание D0M-элементов на основе массива объектов adsAll;
-var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
-var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
-
-for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления Пинов в DocumentFragment;
-
-  var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
-
-  // Меняею атрибуты через DOM API: cвойства style, src, alt;
-  pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
-  pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
-  pinElement.querySelector('img').src = adsAll[i].author.avatar;
-  pinElement.querySelector('img').alt = adsAll[i].offer.title;
-
-  // Еще могу поменять атрибуты через setAttribute; - но не использую этот способ)))
-  // pinElement.setAttribute('style', 'left: ' + adsAll[i].location.x + 'px; ' + 'top: ' + adsAll[i].location.y + 'px');
-  // pinElement.querySelector('img').setAttribute('src', adsAll[i].author.avatar);
-  // pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
-
-  pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
+function createPin(n) {
+  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
+  var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
+  for (var i = 0; i < n; i++) { // Цикл для добавления Пинов в DocumentFragment;
+    var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
+    // Меняею атрибуты через DOM API: cвойства style, src, alt;
+    pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
+    pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
+    pinElement.querySelector('img').src = adsAll[i].author.avatar;
+    pinElement.querySelector('img').alt = adsAll[i].offer.title;
+    pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
+  }
+  return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 }
 
-var mapPins = document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
-
-// Создение DOM-элементов для списка удобств: добавление одной иконки;
-function featureCreate(feature) { // Получаем на вход значение элемента миссива удобств;
-  var featureAdd = document.createElement('li'); // Создаем контейнер <li></li>;
-  featureAdd.classList.add('feature'); // Создаю класс .feature;
-  featureAdd.classList.add('feature--' + feature); // Создаю класс feature__ + название элемента массива;
-  return featureAdd; // Возвращаю созданный элемент с назначенными классами;
-}
-
-// Создение DOM-элементов для списка удобств: создание списка эконок;
+// Создение DOM-элементов для списка удобств;
 function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
   var featureFragment = document.createDocumentFragment(); // Создаем фрагмент для вывода в карточку всех удобств;
   for (var i = 0; i < featureCard.length; i++) { // Создаем цикл для создания и добавления в DocumentFragment дом-элементов с нужными классами;
-    var feature = featureCreate(featureCard[i]); // Обращаеся к функции featureCreate для создания dom-элементов с классами, соответствующими значениям элементов массива;
-    featureFragment.appendChild(feature); // ДОбавляем созданние элементы в DocumentFragment;
+    var featureAdd = document.createElement('li'); // Создаем контейнер <li></li>;
+    featureAdd.classList.add('feature'); // Созданному контейнеру li, задаю класс .feature;
+    featureAdd.classList.add('feature--' + featureCard[i]); // Создаю класс feature__ + название элемента массива удобств;
+    featureFragment.appendChild(featureAdd);
   }
   return featureFragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
 }
@@ -162,33 +145,25 @@ function removeChild(element) {
   }
 }
 
-// Создание DOM-элементов для списка фотографий: одна фотография;
-function photoCreate(photo) {
-  var photoTemplate = document.querySelector('template').content.querySelector('.popup__pictures'); // Получен шаблон списка фотографий;
-  var photoNew = photoTemplate.cloneNode(true); // Список фотографий скопирован;
-  var photoElement = photoNew.querySelector('li'); // Найден элемент li;
-  photoElement.querySelector('img').style.width = 50 + 'px'; // Задаем картике высоту в 50 px;
-  photoElement.querySelector('img').style.height = 50 + 'px'; // Задаем картинке ширину в 50px;
-  photoElement.querySelector('img').src = photo; // Задаем картинке src соответствующий элементу в массиве со ссылками на фотографии;
-  var photoImg = photoElement.querySelector('img'); // Найден элемент img, для изменения src;
-  return photoElement; // Возвращаем dom-элемент <li><img scr="..."</li>, с заданным src;
-}
-
-// Создание DOM - элементов для списка фотографий: вывод всех фотографий;
+//Создание DOM-элементов для списка фотографий: одна фотография;
 function photoCreateAll(photoArr) { // На вход получаем массив со ссылками на фотографии;
-  var photoFragment = document.createDocumentFragment(); //Создан DocumentFragment для вставки фотографий в список;
-  for (var i = 0; i < photoArr.length; i++) { // Создаем цикл для добавления в DocumentFragment дом-элементов <img></img> с заданными из массива src;
-    var photo = photoCreate(photoArr[i]); // Создаем переменную photo и записываем в нее dom-элемент созданный в функции photoCreate;
-    photoFragment.appendChild(photo); // Добавляем полученные в цикле dom-элементы в DocumentFragment;
+  var photoTemplate = document.querySelector('template').content.querySelector('.popup__pictures'); // Получаем шаблон списка фотографий;
+  var photoFragment = document.createDocumentFragment(); // Создаем DocumentFragment для вставки фотографий в список;
+  for (var i = 0; i < photoArr.length; i++) { // Цикл для добавления в DocumentFragment дом-элементов <img></img> с заданными из массива src;
+    var photoNew = photoTemplate.cloneNode(true); // Разметка для фотографий скопирована из шаблона;
+    var photoElement = photoNew.querySelector('li'); // Найден элемент li;
+    photoElement.querySelector('img').style.width = 50 + 'px'; // Задаем картике ширину 50 px;
+    photoElement.querySelector('img').style.height = 50 + 'px'; // Задаем картинке высоту 50px;
+    photoElement.querySelector('img').src = photoArr[i]; // Задаем картинке src соответствующий элементу в массиве со ссылками на фотографии;
+    photoFragment.appendChild(photoElement); // Записываем полученный элемент li с img в DocumentFragment;
   }
-  return photoFragment; // Возвращаем полученный DocumentFragment с созданными dom-элементами;
+  return photoFragment;
 }
 
 // Наполняю карточку объявлениями;
-function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива;
+function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
   var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
   var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
-
   //Заменяю содержимое карточки данными из массива объектов;
   popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
   popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
@@ -202,7 +177,6 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
   popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
   popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
-
   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
 }

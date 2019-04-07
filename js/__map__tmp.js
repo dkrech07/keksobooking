@@ -114,13 +114,13 @@ for (var i = 0; i < ADS_NUBMER; i++) { // Цикл для добавления �
 
   var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
-  // Меняею атрибуты через DOM API: cвойства style, src, alt;
+  // Меняю атрибуты через DOM API: cвойства style, src, alt;
   pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
   pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
   pinElement.querySelector('img').src = adsAll[i].author.avatar;
   pinElement.querySelector('img').alt = adsAll[i].offer.title;
 
-  // Еще могу поменять атрибуты через setAttribute; - но не использую этот способ)))
+  // Еще могу поменять атрибуты через setAttribute, но не использую этот способ;
   // pinElement.setAttribute('style', 'left: ' + adsAll[i].location.x + 'px; ' + 'top: ' + adsAll[i].location.y + 'px');
   // pinElement.querySelector('img').setAttribute('src', adsAll[i].author.avatar);
   // pinElement.querySelector('img').setAttribute('alt', adsAll[i].offer.title);
@@ -162,7 +162,7 @@ function photoCreate(photo) {
   var photoElement = photoNew.querySelector('li'); // Найден элемент li;
   photoElement.querySelector('img').style.width = 50 + 'px'; // Задаем картике высоту в 50 px;
   photoElement.querySelector('img').style.height = 50 + 'px'; // Задаем картинке ширину в 50px;
-  photoElement.querySelector('img').src = photo; // Задаем картинке src соответствующий элементу в массиве со ссылками на фотографии;
+  photoElement.querySelector('img').src = photo; // Задаем картинке src, соответствующий элементу в массиве со ссылками на фотографии;
   var photoImg = photoElement.querySelector('img'); // Найден элемент img, для изменения src;
   return photoElement; // Возвращаем dom-элемент <li><img scr="..."</li>, с заданным src;
 }
