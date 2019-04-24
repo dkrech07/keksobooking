@@ -1,9 +1,9 @@
 // СПИСОК КОНСТАНТ
 var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
 var MIN_X = 10;
-var MAX_X = 1000;
-var MIN_Y = 130;
-var MAX_Y = 630;
+var MAX_X = 1200;
+var MIN_Y = 150;
+var MAX_Y = 700;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var ROOMS_NUMBER = 5;
