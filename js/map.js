@@ -107,8 +107,17 @@ function createAd(n) {
 }
 
 // Активация карты;
-var mapActive = document.querySelector('.map');
-mapActive.classList.remove('map--faded');
+// var mapActive = document.querySelector('.map');
+// mapActive.classList.remove('map--faded');
+
+// Отключение активности полей, до тех пор, пока неактивна квартира
+function inputDisabled() {
+  var mapInputs = document.querySelectorAll('fieldset');
+  for (var i = 0; i < mapInputs.length; i++) {
+    mapInputs[i].disabled = true;
+  }
+  return mapInputs;
+}
 
 // Создание D0M-элементов на основе массива объектов adsAll;
 function createPin(n) {
@@ -160,25 +169,25 @@ function photoCreateAll(photoArr) { // На вход получаем масси
   return photoFragment;
 }
 
-// Наполняю карточку объявлениями;
-function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
-  var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
-  var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
-  //Заменяю содержимое карточки данными из массива объектов;
-  popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
-  popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
-  popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
-  popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
-  popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
-  popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
-  removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
-  popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
-  popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
-  removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
-  popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
-  popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
-  var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
-  return newCard;
-}
-
-popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
+// // Наполняю карточку объявлениями;
+// function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
+//   var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
+//   var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
+//   //Заменяю содержимое карточки данными из массива объектов;
+//   popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
+//   popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
+//   popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
+//   popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
+//   popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
+//   popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
+//   removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
+//   popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
+//   popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
+//   removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
+//   popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
+//   popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
+//   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
+//   return newCard;
+// }
+//
+// popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
