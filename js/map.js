@@ -118,6 +118,7 @@ function inputDisabled() {
   }
   return mapInputs;
 }
+inputDisabled();
 
 // Создание D0M-элементов на основе массива объектов adsAll;
 function createPin(n) {
