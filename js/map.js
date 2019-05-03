@@ -30,7 +30,7 @@ var featureUnique = []; // Генерирую массив случайных о
 var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
 var similarAds = {}; // Обявление. Оъект в который будут записаны данные после выполнения цикла for;
 var adsAll = createAd(ADS_NUBMER); // Созданный в функции массив объявлений с объектами;
-var mapPins = createPin(ADS_NUBMER); // Пины, выведенные на карту;
+// var mapPins = createPin(ADS_NUBMER); // Пины, выведенные на карту;
 
 // Генерация случайного числа с округлением, полученное значение всегда меньше n;
 function getRandom(n) {
@@ -107,10 +107,31 @@ function createAd(n) {
 }
 
 // Активация карты;
-// var mapActive = document.querySelector('.map');
-// mapActive.classList.remove('map--faded');
+var mapActive = document.querySelector('.map');
+var mapButton = document.querySelector('.map__pin--main');
 
-// Отключение активности полей, до тех пор, пока неактивна квартира
+function mapButtonClickHandler() {
+  mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
+  createPin(ADS_NUBMER);
+  inputEnabled();
+}
+
+mapButton.addEventListener('mouseup', mapButtonClickHandler)
+
+// Определение координат кнопки-метки на карте;
+function mapButtonPosition() {
+  return {
+    x: mapButton.offsetLeft,
+    y: mapButton.offsetTop
+  }
+}
+
+// Передача значения в поле форемы Адрес;
+var inputAddress = document.querySelector('#address');
+inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
+console.log(mapButtonPosition());
+
+// Отключение активности полей, до тех пор, пока неактивна квартира;
 function inputDisabled() {
   var mapInputs = document.querySelectorAll('fieldset');
   for (var i = 0; i < mapInputs.length; i++) {
@@ -119,6 +140,16 @@ function inputDisabled() {
   return mapInputs;
 }
 inputDisabled();
+
+// Включение активности полей, до тех пор, пока после того, как активирована карта;
+
+function inputEnabled() {
+  var mapInputs = document.querySelectorAll('fieldset');
+  for (var i = 0; i < mapInputs.length; i++) {
+    mapInputs[i].disabled = false;
+  }
+  return mapInputs;
+}
 
 // Создание D0M-элементов на основе массива объектов adsAll;
 function createPin(n) {
