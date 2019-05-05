@@ -114,9 +114,26 @@ function mapButtonClickHandler() {
   mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
   createPin(ADS_NUBMER);
   inputEnabled();
+  getPinElementsList();
 }
 
 mapButton.addEventListener('mouseup', mapButtonClickHandler)
+
+// Нахожу созадные пины по классам pin-1, pin-2, pin-3 и т.д.;
+
+function getPinElementsList() {
+  var pinElementsList = document.querySelectorAll('.pin')
+  for (var i = 0; i < ADS_NUBMER; i++) {
+    pinElementsList[i].addEventListener('click', function() {
+      console.log('OK');
+    });
+  }
+}
+
+// Отрисовка карточки при клике на пин;
+// function pinClickHandler() {
+//   console.log('OK ');
+// }
 
 // Определение координат кнопки-метки на карте;
 function mapButtonPosition() {
@@ -126,7 +143,7 @@ function mapButtonPosition() {
   }
 }
 
-// Передача значения в поле форемы Адрес;
+// Передача значения в поле формы Адрес;
 var inputAddress = document.querySelector('#address');
 inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 console.log(mapButtonPosition());
@@ -162,6 +179,7 @@ function createPin(n) {
     pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
     pinElement.querySelector('img').src = adsAll[i].author.avatar;
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
+    pinElement.classList.add('pin', 'pin__' + i); // Добавляю элементу класс, соответствующий его номеру;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
