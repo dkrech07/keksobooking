@@ -114,71 +114,8 @@ function mapButtonClickHandler() {
   mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
   createPin(ADS_NUBMER);
   inputEnabled();
-  // getPinElementsList();
-
-  var pinElementClick0 = document.querySelector('.pin__0');
-  var pinElementClick1 = document.querySelector('.pin__1');
-  var pinElementClick2 = document.querySelector('.pin__2');
-  var pinElementClick3 = document.querySelector('.pin__3');
-  var pinElementClick4 = document.querySelector('.pin__4');
-  var pinElementClick5 = document.querySelector('.pin__5');
-  var pinElementClick6 = document.querySelector('.pin__6');
-  var pinElementClick7 = document.querySelector('.pin__7');
-  pinElementClick0.addEventListener('click', pinClickHandler0);
-  pinElementClick1.addEventListener('click', pinClickHandler1);
-  pinElementClick2.addEventListener('click', pinClickHandler2);
-  pinElementClick3.addEventListener('click', pinClickHandler3);
-  pinElementClick4.addEventListener('click', pinClickHandler4);
-  pinElementClick5.addEventListener('click', pinClickHandler5);
-  pinElementClick6.addEventListener('click', pinClickHandler6);
-  pinElementClick7.addEventListener('click', pinClickHandler7);
-
-  // Отрисовка карточки при клике на пин;
-  function pinClickHandler0() {
-    popupElement(0); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler1() {
-    popupElement(1); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler2() {
-    popupElement(2); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler3() {
-    popupElement(3); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler4() {
-    popupElement(4); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler5() {
-    popupElement(5); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler6() {
-    popupElement(6); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
-
-  function pinClickHandler7() {
-    popupElement(7); // Вывел каточку поп-ап для первого (нулевого в массиве) объекта;
-  }
 }
 mapButton.addEventListener('mouseup', mapButtonClickHandler)
-
-// // Нахожу созадные пины по классам pin-1, pin-2, pin-3 и т.д.;
-// function getPinElementsList() {
-//   var pinElementsList = document.querySelectorAll('.pin')
-//   for (var i = 0; i < ADS_NUBMER; i++) {
-//     pinElementsList[i].addEventListener('click', function() {
-//       console.log('OK');
-//     });
-//   }
-// }
-
-
 
 // Определение координат кнопки-метки на карте;
 function mapButtonPosition() {
@@ -191,7 +128,6 @@ function mapButtonPosition() {
 // Передача значения в поле формы Адрес;
 var inputAddress = document.querySelector('#address');
 inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
-console.log(mapButtonPosition());
 
 // Отключение активности полей, до тех пор, пока неактивна квартира;
 function inputDisabled() {
@@ -219,12 +155,22 @@ function createPin(n) {
   var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
   for (var i = 0; i < n; i++) { // Цикл для добавления Пинов в DocumentFragment;
     var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
+
     // Меняею атрибуты через DOM API: cвойства style, src, alt;
     pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
     pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
     pinElement.querySelector('img').src = adsAll[i].author.avatar;
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
-    pinElement.classList.add('pin', 'pin__' + i); // Добавляю элементу класс, соответствующий его номеру;
+
+    // Добавляю обработчик на активный пин-элемент;
+    pinElement.addEventListener('click', function() {
+      pinElement.classList.add('pin__active');
+      console.log('Произошел клик по пину ' + pinElement);
+
+      var pinActive = document.querySelector('.pin__active');
+      console.log(pinActive);
+    });
+
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
