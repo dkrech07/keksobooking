@@ -161,20 +161,28 @@ function createPin(n) {
     pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
     pinElement.querySelector('img').src = adsAll[i].author.avatar;
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
-
-    // Добавляю обработчик на активный пин-элемент;
-    pinElement.addEventListener('click', function() {
-      pinElement.classList.add('pin__active');
-      console.log('Произошел клик по пину ' + pinElement);
-
-      var pinActive = document.querySelector('.pin__active');
-      console.log(pinActive);
-    });
-
+    pinElement.classList.add('pin__' + i);
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 }
+
+// Добавляю обработчик на активный пин-элемент;
+// pinElement.addEventListener('click', function() {
+//   pinElement.classList.add('pin__active');
+//   console.log('Произошел клик по пину ' + pinElement);
+//
+//   var pinActive = document.querySelector('.pin__active');
+//   console.log(pinActive);
+// });
+
+// Выполняю делегирование - добавляю один обработчик на родительский элемент пинов;
+
+var mapPins = document.querySelector('.map__pins');
+mapPins.addEventListener('click', function(evt) {
+  var target = evt.target;
+  console.log(target);
+})
 
 // Создение DOM-элементов для списка удобств;
 function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
