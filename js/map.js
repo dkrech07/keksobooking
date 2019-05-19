@@ -114,7 +114,6 @@ function mapButtonClickHandler() {
   mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
   createPin(ADS_NUBMER);
   inputEnabled();
-  // Выполняю делегирование - добавляю один обработчик на родительский элемент пинов;
 }
 mapButton.addEventListener('mouseup', mapButtonClickHandler)
 
@@ -141,7 +140,6 @@ function inputDisabled() {
 inputDisabled();
 
 // Включение активности полей, до тех пор, пока после того, как активирована карта;
-
 function inputEnabled() {
   var mapInputs = document.querySelectorAll('fieldset');
   for (var i = 0; i < mapInputs.length; i++) {
@@ -168,14 +166,6 @@ function createPin(n) {
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 }
-
-var mapPins = document.querySelector('.map__pins');
-mapPins.addEventListener('click', function(evt) {
-  var target = evt.target;
-  // console.log(parseInt(target.classList.value));
-  popupElement(parseInt(target.classList.value));
-  // popupElement();
-})
 
 // Создение DOM-элементов для списка удобств;
 function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
@@ -213,25 +203,38 @@ function photoCreateAll(photoArr) { // На вход получаем масси
 
 // Наполняю карточку объявлениями;
 function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
-  if (typeof i !== NaN) {
-    var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
-    var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
-    //Заменяю содержимое карточки данными из массива объектов;
-    popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
-    popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
-    popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
-    popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
-    popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
-    popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
-    removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
-    popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
-    popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
-    removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
-    popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
-    popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
-    var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
-    return newCard;
-  }
+  // if (typeof i !== NaN) {
+  var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
+  var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
+  //Заменяю содержимое карточки данными из массива объектов;
+  popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
+  popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
+  popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
+  popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
+  popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
+  popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
+  removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
+  popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
+  popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
+  removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
+  popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
+  popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
+  var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
+  return newCard;
+  // }
 }
 
+// Отлавливаю событие клика на .map__pins
+var mapPins = document.querySelector('.map__pins');
+mapPins.addEventListener('click', pinHandler);
+
+// Функция-обработчик события по клику на пин;
+function pinHandler(evt) {
+  var target = evt.target; // Передаем значение из evt в переменную target;
+  var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
+  if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
+    console.log(targetNumber);
+    popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
+  }
+}
 // popupElement(1)
