@@ -236,5 +236,14 @@ function pinHandler(evt) {
     console.log(targetNumber);
     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
   }
+
+  // Нахожу поп-ап и значок закрытия у открытого поп-апа;
+  var popUp = document.querySelector('.map__card');
+  var popUpClose = document.querySelector('.popup__close');
+
+  function popUpCloseHandler() {
+    popUp.classList.add('hidden');
+  }
+  popUpClose.addEventListener('click', popUpCloseHandler);
+
 }
-// popupElement(1)
