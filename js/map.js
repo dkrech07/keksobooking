@@ -244,6 +244,7 @@ function pinHandler(evt) {
   function popUpCloseHandler() {
     popUp.classList.add('hidden');
   }
+
   popUpClose.addEventListener('click', popUpCloseHandler);
 
 }
