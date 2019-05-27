@@ -25,6 +25,10 @@ var TYPE_HOUSING_RU = {
   bungalo: "Бунгало"
 };
 
+// СПИСОК КЛАВИШ
+
+var ESC_KEYCODE = 27;
+
 // СПИСОК ПЕРЕМЕННЫХ
 var featureUnique = []; // Генерирую массив случайных особенностей;
 var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
@@ -115,7 +119,8 @@ function mapButtonClickHandler() {
   createPin(ADS_NUBMER);
   inputEnabled();
 }
-mapButton.addEventListener('mouseup', mapButtonClickHandler)
+
+mapButton.addEventListener('mouseup', mapButtonClickHandler);
 
 // Определение координат кнопки-метки на карте;
 function mapButtonPosition() {
@@ -241,10 +246,17 @@ function pinHandler(evt) {
   var popUp = document.querySelector('.map__card');
   var popUpClose = document.querySelector('.popup__close');
 
-  function popUpCloseHandler() {
-    popUp.classList.add('hidden');
-  }
-
-  popUpClose.addEventListener('click', popUpCloseHandler);
+  // function closePopup() {
+  //   popUp.classList.add('hidden');
+  // }
+  //
+  //
+  // function onPopupEscPress(evt) {
+  //   if (evt.keyCode === ESC_KEYCODE) {
+  //     closePopup();
+  //   }
+  // };
+  //
+  // popUpClose.addEventListener('click', onPopupEscPress);
 
 }
