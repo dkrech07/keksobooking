@@ -246,6 +246,15 @@ function pinHandler(evt) {
   var popUp = document.querySelector('.map__card');
   var popUpClose = document.querySelector('.popup__close');
 
+  console.log(popUp);
+  console.log(popUpClose);
+
+  function clickCloseHandler() {
+    popUp.parentNode.removeChild(popUp);
+  }
+
+  popUpClose.addEventListener('click', clickCloseHandler);
+
   // function closePopup() {
   //   popUp.classList.add('hidden');
   // }
