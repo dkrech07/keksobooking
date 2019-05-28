@@ -235,37 +235,21 @@ mapPins.addEventListener('click', pinHandler);
 
 // Функция-обработчик события по клику на пин;
 function pinHandler(evt) {
+
   var target = evt.target; // Передаем значение из evt в переменную target;
   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
-    console.log(targetNumber);
+
     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
+
+    // Нахожу поп-ап и значок закрытия у открытого поп-апа;
+    var popUp = document.querySelector('.map__card');
+    var popUpClose = document.querySelector('.popup__close');
+
+    function clickCloseHandler() {
+      popUp.parentNode.removeChild(popUp);
+    }
+
+    popUpClose.addEventListener('click', clickCloseHandler);
   }
-
-  // Нахожу поп-ап и значок закрытия у открытого поп-апа;
-  var popUp = document.querySelector('.map__card');
-  var popUpClose = document.querySelector('.popup__close');
-
-  console.log(popUp);
-  console.log(popUpClose);
-
-  function clickCloseHandler() {
-    popUp.parentNode.removeChild(popUp);
-  }
-
-  popUpClose.addEventListener('click', clickCloseHandler);
-
-  // function closePopup() {
-  //   popUp.classList.add('hidden');
-  // }
-  //
-  //
-  // function onPopupEscPress(evt) {
-  //   if (evt.keyCode === ESC_KEYCODE) {
-  //     closePopup();
-  //   }
-  // };
-  //
-  // popUpClose.addEventListener('click', onPopupEscPress);
-
 }
