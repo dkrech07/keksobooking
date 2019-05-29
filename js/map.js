@@ -25,10 +25,6 @@ var TYPE_HOUSING_RU = {
   bungalo: "Бунгало"
 };
 
-// СПИСОК КЛАВИШ
-
-var ESC_KEYCODE = 27;
-
 // СПИСОК ПЕРЕМЕННЫХ
 var featureUnique = []; // Генерирую массив случайных особенностей;
 var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
@@ -229,6 +225,12 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   // }
 }
 
+// СПИСОК КЛАВИШ
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var isFocus = false;
+
 // Отлавливаю событие клика на .map__pins
 var mapPins = document.querySelector('.map__pins');
 mapPins.addEventListener('click', pinHandler);
@@ -249,6 +251,29 @@ function pinHandler(evt) {
     function clickCloseHandler() {
       popUp.parentNode.removeChild(popUp);
     }
+
+    // function focusOnCloseHandler() {
+    //   isFocus = false;
+    // }
+    //
+    // function focusOfCloseHandler()
+
+    popUpClose.addEventListener('focus', function() {
+      isFocus = true;
+      console.log('isFocus = true');
+
+      popUpClose.addEventListener('keydown', function(evt) {
+        if (evt === ENTER_KEYCODE) {
+          clickCloseHandler();
+        }
+      });
+
+    })
+
+    // popUpClose.addEventListener('focusout', function() {
+    //   isFocus = false;
+    //   console.log('isFocus = false');
+    // })
 
     popUpClose.addEventListener('click', clickCloseHandler);
   }
