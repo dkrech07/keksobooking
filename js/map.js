@@ -1,8 +1,8 @@
 // СПИСОК КОНСТАНТ
 var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
-var MIN_X = 10;
+var MIN_X = 80;
 var MAX_X = 1000;
-var MIN_Y = 130;
+var MIN_Y = 200;
 var MAX_Y = 630;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
@@ -10,6 +10,14 @@ var ROOMS_NUMBER = 5;
 var GUESTS_NUMBER = 10;
 var PIN_WIDTH = 40;
 var PIN_HEIGHT = 62;
+var MAP_BUTTON_WIDTH = 100;
+var MAP_BUTTON_HEIGHT = 100;
+
+// СПИСОК КЛАВИШ
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var isFocus = false;
 
 // СПИСОК МАССИВОВ И ОБЪЕКТОВ
 var DESCRIPTION_APARTAMENT = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый гостевой домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
@@ -118,11 +126,11 @@ function mapButtonClickHandler() {
 
 mapButton.addEventListener('mouseup', mapButtonClickHandler);
 
-// Определение координат кнопки-метки на карте;
+// Определение координат большой кнопки-метки на карте;
 function mapButtonPosition() {
   return {
-    x: mapButton.offsetLeft,
-    y: mapButton.offsetTop
+    x: mapButton.offsetLeft + MAP_BUTTON_WIDTH / 2,
+    y: mapButton.offsetTop + MAP_BUTTON_WIDTH / 2
   }
 }
 
@@ -163,7 +171,6 @@ function createPin(n) {
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
     pinElement.querySelector('img').classList.add(i);
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
-
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 }
@@ -225,19 +232,12 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   // }
 }
 
-// СПИСОК КЛАВИШ
-
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
-var isFocus = false;
-
 // Отлавливаю событие клика на .map__pins
 var mapPins = document.querySelector('.map__pins');
-mapPins.addEventListener('click', pinHandler);
+mapPins.addEventListener('click', pinClickHandler);
 
 // Функция-обработчик события по клику на пин;
-function pinHandler(evt) {
-
+function pinClickHandler(evt) {
   var target = evt.target; // Передаем значение из evt в переменную target;
   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
@@ -252,12 +252,6 @@ function pinHandler(evt) {
       popUp.parentNode.removeChild(popUp);
     }
 
-    // function focusOnCloseHandler() {
-    //   isFocus = false;
-    // }
-    //
-    // function focusOfCloseHandler()
-
     popUpClose.addEventListener('focus', function() {
       isFocus = true;
       console.log('isFocus = true');
@@ -267,13 +261,7 @@ function pinHandler(evt) {
           clickCloseHandler();
         }
       });
-
     })
-
-    // popUpClose.addEventListener('focusout', function() {
-    //   isFocus = false;
-    //   console.log('isFocus = false');
-    // })
 
     popUpClose.addEventListener('click', clickCloseHandler);
   }
