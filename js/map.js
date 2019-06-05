@@ -236,33 +236,41 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
 var mapPins = document.querySelector('.map__pins');
 mapPins.addEventListener('click', pinClickHandler);
 
-// Функция-обработчик события по клику на пин;
+// Функция-обработчик события клика по пину;
 function pinClickHandler(evt) {
   var target = evt.target; // Передаем значение из evt в переменную target;
   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
-
     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
-
-    // Нахожу поп-ап и значок закрытия у открытого поп-апа;
-    var popUp = document.querySelector('.map__card');
-    var popUpClose = document.querySelector('.popup__close');
-
-    function clickCloseHandler() {
-      popUp.parentNode.removeChild(popUp);
-    }
-
-    popUpClose.addEventListener('focus', function() {
-      isFocus = true;
-      console.log('isFocus = true');
-
-      popUpClose.addEventListener('keydown', function(evt) {
-        if (evt === ENTER_KEYCODE) {
-          clickCloseHandler();
-        }
-      });
-    })
-
-    popUpClose.addEventListener('click', clickCloseHandler);
   }
+  console.log(target);
+  console.log(targetNumber);
 }
+
+
+
+
+
+
+
+// Закрытие попапа, ДОБАВИТЬ ЧУТЬ ПОЗЖЕ
+// // Нахожу поп-ап и значок закрытия у открытого поп-апа;
+// var popUp = document.querySelector('.map__card');
+// var popUpClose = document.querySelector('.popup__close');
+//
+// function clickCloseHandler() {
+//   popUp.parentNode.removeChild(popUp);
+// }
+//
+// popUpClose.addEventListener('focus', function() {
+//   isFocus = true;
+//   console.log('isFocus = true');
+//
+//   popUpClose.addEventListener('keydown', function(evt) {
+//     if (evt === ENTER_KEYCODE) {
+//       clickCloseHandler();
+//     }
+//   });
+// })
+//
+// popUpClose.addEventListener('click', clickCloseHandler);
