@@ -150,7 +150,7 @@ inputDisabled('fieldset');
 inputDisabled('select');
 
 
-// // Отключение активности полей, до тех пор, пока неактивна квартира (select);
+// Отключение активности полей, до тех пор, пока неактивна квартира (select);
 // function selectDisabled() {
 //   var mapInputs = document.querySelectorAll('select');
 //   for (var i = 0; i < mapInputs.length; i++) {
