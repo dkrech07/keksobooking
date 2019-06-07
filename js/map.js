@@ -138,15 +138,27 @@ function mapButtonPosition() {
 var inputAddress = document.querySelector('#address');
 inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 
-// Отключение активности полей, до тех пор, пока неактивна квартира;
-function inputDisabled() {
-  var mapInputs = document.querySelectorAll('fieldset');
+// Отключение активности полей, до тех пор, пока неактивна квартира (fieldset);
+function inputDisabled(selector) {
+  var mapInputs = document.querySelectorAll(selector);
   for (var i = 0; i < mapInputs.length; i++) {
     mapInputs[i].disabled = true;
   }
   return mapInputs;
 }
-inputDisabled();
+inputDisabled('fieldset');
+inputDisabled('select');
+
+
+// // Отключение активности полей, до тех пор, пока неактивна квартира (select);
+// function selectDisabled() {
+//   var mapInputs = document.querySelectorAll('select');
+//   for (var i = 0; i < mapInputs.length; i++) {
+//     mapInputs[i].disabled = true;
+//   }
+//   return mapInputs;
+// }
+// selectDisabled();
 
 // Включение активности полей, до тех пор, пока после того, как активирована карта;
 function inputEnabled() {
@@ -247,6 +259,11 @@ function pinClickHandler(evt) {
   console.log(targetNumber);
 }
 
+mapPins.addEventListener('onfocus', pinFocusHandler);
+
+function pinFocusHandler(evt) {
+  console.log('ONFOCUS');
+}
 
 
 
