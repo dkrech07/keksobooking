@@ -121,7 +121,8 @@ var mapButton = document.querySelector('.map__pin--main');
 function mapButtonClickHandler() {
   mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
   createPin(ADS_NUBMER);
-  inputEnabled();
+  inputEnabled('fieldset');
+  inputEnabled('select');
 }
 
 mapButton.addEventListener('mouseup', mapButtonClickHandler);
@@ -138,7 +139,7 @@ function mapButtonPosition() {
 var inputAddress = document.querySelector('#address');
 inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 
-// Отключение активности полей, до тех пор, пока неактивна квартира (fieldset);
+// Отключение активности полей, до тех пор, пока неактивна квартира (select, fieldset);
 function inputDisabled(selector) {
   var mapInputs = document.querySelectorAll(selector);
   for (var i = 0; i < mapInputs.length; i++) {
@@ -149,20 +150,9 @@ function inputDisabled(selector) {
 inputDisabled('fieldset');
 inputDisabled('select');
 
-
-// Отключение активности полей, до тех пор, пока неактивна квартира (select);
-// function selectDisabled() {
-//   var mapInputs = document.querySelectorAll('select');
-//   for (var i = 0; i < mapInputs.length; i++) {
-//     mapInputs[i].disabled = true;
-//   }
-//   return mapInputs;
-// }
-// selectDisabled();
-
 // Включение активности полей, до тех пор, пока после того, как активирована карта;
-function inputEnabled() {
-  var mapInputs = document.querySelectorAll('fieldset');
+function inputEnabled(selector) {
+  var mapInputs = document.querySelectorAll(selector);
   for (var i = 0; i < mapInputs.length; i++) {
     mapInputs[i].disabled = false;
   }
@@ -181,10 +171,11 @@ function createPin(n) {
     pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
     pinElement.querySelector('img').src = adsAll[i].author.avatar;
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
-    pinElement.querySelector('img').classList.add(i);
+    pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
+
 }
 
 // Создение DOM-элементов для списка удобств;
@@ -223,7 +214,6 @@ function photoCreateAll(photoArr) { // На вход получаем масси
 
 // Наполняю карточку объявлениями;
 function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
-  // if (typeof i !== NaN) {
   var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
   var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
   //Заменяю содержимое карточки данными из массива объектов;
@@ -241,35 +231,48 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
-  // }
 }
 
 // Отлавливаю событие клика на .map__pins
 var mapPins = document.querySelector('.map__pins');
 mapPins.addEventListener('click', pinClickHandler);
+console.log(mapPins);
 
-// Функция-обработчик события клика по пину;
 function pinClickHandler(evt) {
-  var target = evt.target; // Передаем значение из evt в переменную target;
-  var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
-  if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
-    popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
-  }
+  var target = evt.target;
   console.log(target);
-  console.log(targetNumber);
-}
-
-mapPins.addEventListener('onfocus', pinFocusHandler);
-
-function pinFocusHandler(evt) {
-  console.log('ONFOCUS');
 }
 
 
+// var mapPins = document.querySelector('.map__pins');
+// mapPins.addEventListener('click', pinClickHandler);
+//
+// Функция-обработчик события клика по пину;
 
 
 
 
+// function pinClickHandler(evt) {
+//   var target = evt.target; // Передаем значение из evt в переменную target;
+//   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
+//   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
+//     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
+//   }
+//   console.log(target);
+//   console.log(targetNumber);
+// }
+// //
+// mapPins.addEventListener('onfocus', pinFocusHandler);
+//
+// function pinFocusHandler(evt) {
+//   console.log('ONFOCUS');
+// }
+//
+//
+//
+//
+//
+//
 // Закрытие попапа, ДОБАВИТЬ ЧУТЬ ПОЗЖЕ
 // // Нахожу поп-ап и значок закрытия у открытого поп-апа;
 // var popUp = document.querySelector('.map__card');
