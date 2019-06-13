@@ -159,7 +159,7 @@ function inputEnabled(selector) {
   return mapInputs;
 }
 
-// Создание D0M-элементов на основе массива объектов adsAll;
+// Создание D0M-элементов (пинов) на основе массива объектов adsAll;
 function createPin(n) {
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
   var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
@@ -173,6 +173,37 @@ function createPin(n) {
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
     pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
+
+    // Отлавливаю событие клика на .map__pins
+    pinElement.addEventListener('click', pinClickHandler);
+
+    function pinClickHandler(evt) {
+      var target = evt.currentTarget; // Передаем значение из evt в переменную target;
+      var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
+      // pinElement.classList.add('pin__active');
+      // removeActive();
+      return popupElement(targetNumber);
+    }
+
+    // function removeActive() {
+    //   var pinActive = document.querySelector('.pin__active');
+    //   var mapPins = document.querySelector('.map__pins');
+    //   var popUp = document.querySelector('.map__card')
+    //   if (pinActive == true) {
+    //     // pinActive.classList.remove('map__pin--active');
+    //     console.log(mapPins);
+    //     mapPins.removeChild(popUp);
+    //   }
+    // };
+
+    // function pinClickHandler(evt) {
+    //   var target = evt.target; // Передаем значение из evt в переменную target;
+    //   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
+    //   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
+    //     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
+    //   }
+
+
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 
@@ -233,31 +264,12 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   return newCard;
 }
 
-// Отлавливаю событие клика на .map__pins
-var mapPins = document.querySelector('.map__pins');
-mapPins.addEventListener('click', pinClickHandler);
-console.log(mapPins);
-
-function pinClickHandler(evt) {
-  var target = evt.target;
-  console.log(target);
-}
-
-
-// var mapPins = document.querySelector('.map__pins');
-// mapPins.addEventListener('click', pinClickHandler);
-//
-// Функция-обработчик события клика по пину;
 
 
 
 
-// function pinClickHandler(evt) {
-//   var target = evt.target; // Передаем значение из evt в переменную target;
-//   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
-//   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
-//     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
-//   }
+
+
 //   console.log(target);
 //   console.log(targetNumber);
 // }
