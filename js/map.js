@@ -174,39 +174,23 @@ function createPin(n) {
     pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
-    // Отлавливаю событие клика на .map__pins
+    // Отлавливаю событие клика на пине;
     pinElement.addEventListener('click', pinClickHandler);
 
     function pinClickHandler(evt) {
       var target = evt.currentTarget; // Передаем значение из evt в переменную target;
       var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
-      // pinElement.classList.add('pin__active');
-      // removeActive();
+      target.classList.add('pin__active');
+      // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
+      var mapElements = document.querySelector('.map');
+      var popUp = document.querySelector('.map__card');
+      if (popUp) {
+        mapElements.removeChild(popUp);
+      }
       return popupElement(targetNumber);
     }
-
-    // function removeActive() {
-    //   var pinActive = document.querySelector('.pin__active');
-    //   var mapPins = document.querySelector('.map__pins');
-    //   var popUp = document.querySelector('.map__card')
-    //   if (pinActive == true) {
-    //     // pinActive.classList.remove('map__pin--active');
-    //     console.log(mapPins);
-    //     mapPins.removeChild(popUp);
-    //   }
-    // };
-
-    // function pinClickHandler(evt) {
-    //   var target = evt.target; // Передаем значение из evt в переменную target;
-    //   var targetNumber = target.classList.value; // Получаем значение из класса элемента по которому произвели клик;
-    //   if (!isNaN(parseFloat(targetNumber))) { // Проверяем является ли значение в переменной targetNumber числом;
-    //     popupElement(targetNumber); // Если значение является числом, генерируем на его основе карточку отеля;
-    //   }
-
-
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
-
 }
 
 // Создение DOM-элементов для списка удобств;
@@ -265,9 +249,14 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
 }
 
 
+// var popUpClose = popUp.querySelector('.popup__close');
+// console.log(popUpClose);
 
-
-
+// popUpClose.addEventListener('click', clickCloseHandler);
+//
+// function clickCloseHandler() {
+//   mapElements.removeChild(popUp);
+// }
 
 
 //   console.log(target);
