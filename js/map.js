@@ -173,22 +173,6 @@ function createPin(n) {
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
     pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
-
-    // Отлавливаю событие клика на пине;
-    pinElement.addEventListener('click', pinClickHandler);
-
-    function pinClickHandler(evt) {
-      var target = evt.currentTarget; // Передаем значение из evt в переменную target;
-      var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
-      target.classList.add('pin__active');
-      // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
-      var mapElements = document.querySelector('.map');
-      var popUp = document.querySelector('.map__card');
-      if (popUp) {
-        mapElements.removeChild(popUp);
-      }
-      return popupElement(targetNumber);
-    }
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
 }
@@ -247,6 +231,51 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
 }
+
+// Отлавливаю событие клика на пине;
+
+var mapWrapper = document.querySelector('.map__pins'); // Нахожу обертку map__pins, в которой 'лежат' пины;
+
+mapWrapper.addEventListener('click', pinClickHandler); // Отлавливаю событие клика на обертке;
+
+function pinClickHandler(evt) {
+  var target = evt.target; // Передаю значение из evt в переменную target;
+  while (target != mapWrapper) {
+
+    // Проверяю открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
+    var mapElements = document.querySelector('.map');
+    var popUp = document.querySelector('.map__card');
+    if (popUp) {
+      mapElements.removeChild(popUp);
+    }
+
+    // Передаю значение id пина в функцию popupElement для генерации попапа;
+    if (target.className == 'map__pin') {
+      return popupElement(target.id);
+    }
+    target = target.parentNode;
+  }
+}
+
+
+
+
+//
+// // Отлавливаю событие клика на пине;
+// pinElement.addEventListener('click', pinClickHandler);
+//
+// function pinClickHandler(evt) {
+//   var target = evt.currentTarget; // Передаем значение из evt в переменную target;
+//   var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
+//   // target.classList.add('pin__active');
+//   // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
+//   var mapElements = document.querySelector('.map');
+//   var popUp = document.querySelector('.map__card');
+//   if (popUp) {
+//     mapElements.removeChild(popUp);
+//   }
+//   return popupElement(targetNumber);
+// }
 
 
 // var popUpClose = popUp.querySelector('.popup__close');
