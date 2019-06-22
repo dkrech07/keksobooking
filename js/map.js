@@ -173,8 +173,57 @@ function createPin(n) {
     pinElement.querySelector('img').alt = adsAll[i].offer.title;
     pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
+
+    // Отлавливаю событие клика на пине;
+    pinElement.addEventListener('click', pinClickHandler);
+    // Отлавливаю событие нажатия ENTER на пине;
+    pinElement.addEventListener('keydown', function(evt) {
+      if (keyCode === 'ENTER_KEYCODE') {
+        pinClickHandler;
+      }
+    });
+    // Отлавливаю нажатие на ESC;
+    document.addEventListener('keydown', popupEscPressHandler);
+
+    function pinClickHandler(evt) {
+      var target = evt.currentTarget; // Передаем значение из evt в переменную target;
+      var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
+      target.classList.add('pin__active');
+      removePopUp()
+      popupElement(targetNumber);
+
+      // Отливливаю клик на крестик на попапе 'popup__close';
+      var popUpClose = document.querySelector('.popup__close');
+      popUpClose.addEventListener('click', popUpCloseHandler); // Закрытие попапа по клику;
+      popUpClose.addEventListener('keydown', function(evt) { // Закрытие попапа по нажатию на крестик с помощью ENTER;
+        if (evt === ENTER_KEYCODE) {
+          popUpCloseHandler;
+        }
+      });
+    }
   }
   return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
+}
+
+// Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
+function removePopUp() {
+  var mapElements = document.querySelector('.map');
+  var popUp = document.querySelector('.map__card');
+  if (popUp) {
+    mapElements.removeChild(popUp);
+  }
+}
+
+// Закрываю попап при нажатии на ESC;
+function popupEscPressHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    removePopUp();
+  }
+};
+
+// Закрываю попап при нажатии на крестик 'popup__close';
+function popUpCloseHandler(evt) {
+  removePopUp();
 }
 
 // Создение DOM-элементов для списка удобств;
@@ -231,96 +280,3 @@ function popupElement(i) { // В зависимости от i от 0 до 7, п
   var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
   return newCard;
 }
-
-// Отлавливаю событие клика на пине;
-
-var mapWrapper = document.querySelector('.map__pins'); // Нахожу обертку map__pins, в которой 'лежат' пины;
-
-mapWrapper.addEventListener('click', pinClickHandler); // Отлавливаю событие клика на обертке;
-
-function pinClickHandler(evt) {
-  var target = evt.target; // Передаю значение из evt в переменную target;
-  while (target != mapWrapper) {
-
-    // Проверяю открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
-    var mapElements = document.querySelector('.map');
-    var popUp = document.querySelector('.map__card');
-    if (popUp) {
-      mapElements.removeChild(popUp);
-    }
-
-    // Передаю значение id пина в функцию popupElement для генерации попапа;
-    if (target.className == 'map__pin') {
-      return popupElement(target.id);
-    }
-    target = target.parentNode;
-  }
-}
-
-
-
-
-//
-// // Отлавливаю событие клика на пине;
-// pinElement.addEventListener('click', pinClickHandler);
-//
-// function pinClickHandler(evt) {
-//   var target = evt.currentTarget; // Передаем значение из evt в переменную target;
-//   var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
-//   // target.classList.add('pin__active');
-//   // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
-//   var mapElements = document.querySelector('.map');
-//   var popUp = document.querySelector('.map__card');
-//   if (popUp) {
-//     mapElements.removeChild(popUp);
-//   }
-//   return popupElement(targetNumber);
-// }
-
-
-// var popUpClose = popUp.querySelector('.popup__close');
-// console.log(popUpClose);
-
-// popUpClose.addEventListener('click', clickCloseHandler);
-//
-// function clickCloseHandler() {
-//   mapElements.removeChild(popUp);
-// }
-
-
-//   console.log(target);
-//   console.log(targetNumber);
-// }
-// //
-// mapPins.addEventListener('onfocus', pinFocusHandler);
-//
-// function pinFocusHandler(evt) {
-//   console.log('ONFOCUS');
-// }
-//
-//
-//
-//
-//
-//
-// Закрытие попапа, ДОБАВИТЬ ЧУТЬ ПОЗЖЕ
-// // Нахожу поп-ап и значок закрытия у открытого поп-апа;
-// var popUp = document.querySelector('.map__card');
-// var popUpClose = document.querySelector('.popup__close');
-//
-// function clickCloseHandler() {
-//   popUp.parentNode.removeChild(popUp);
-// }
-//
-// popUpClose.addEventListener('focus', function() {
-//   isFocus = true;
-//   console.log('isFocus = true');
-//
-//   popUpClose.addEventListener('keydown', function(evt) {
-//     if (evt === ENTER_KEYCODE) {
-//       clickCloseHandler();
-//     }
-//   });
-// })
-//
-// popUpClose.addEventListener('click', clickCloseHandler);
