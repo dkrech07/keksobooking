@@ -174,11 +174,12 @@ function createPin(n) {
     pinElement.id = i;
     pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
+
     // Отлавливаю событие клика на пине;
     pinElement.addEventListener('click', pinClickHandler);
     // Отлавливаю событие нажатия ENTER на пине;
     pinElement.addEventListener('keydown', function(evt) {
-      if (keyCode === 'ENTER_KEYCODE') {
+      if (evt === ENTER_KEYCODE) {
         pinClickHandler;
       }
     });
@@ -188,7 +189,6 @@ function createPin(n) {
     function pinClickHandler(evt) {
       var target = evt.currentTarget; // Передаем значение из evt в переменную target;
       var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
-      target.classList.add('pin__active');
       removePopUp()
       popupElement(targetNumber);
 
