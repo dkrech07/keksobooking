@@ -129,7 +129,27 @@ function mapButtonClickHandler() {
   }
 }
 
-mapButton.addEventListener('mouseup', mapButtonClickHandler);
+// mapButton.addEventListener('mouseup', mapButtonClickHandler);
+
+// Перемещение маркера по карте;
+
+mapButton.addEventListener('mousedown', function(evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var dragged = false;
+
+  function onMouseMove(moveEvt) {
+
+  }
+
+  console.log('OK');
+  console.log(startCoords);
+});
 
 // Определение координат большой кнопки-метки на карте;
 function mapButtonPosition() {
