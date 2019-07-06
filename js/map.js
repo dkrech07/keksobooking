@@ -117,12 +117,16 @@ function createAd(n) {
 // Активация карты;
 var mapActive = document.querySelector('.map');
 var mapButton = document.querySelector('.map__pin--main');
+var pinsAdd = false;
 
 function mapButtonClickHandler() {
-  mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
-  createPin(ADS_NUBMER);
-  inputEnabled('fieldset');
-  inputEnabled('select');
+  if (pinsAdd === false) {
+    mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
+    createPin(ADS_NUBMER);
+    inputEnabled('fieldset');
+    inputEnabled('select');
+    pinsAdd = true;
+  }
 }
 
 mapButton.addEventListener('mouseup', mapButtonClickHandler);
