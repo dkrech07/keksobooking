@@ -119,7 +119,9 @@ var mapActive = document.querySelector('.map');
 var mapButton = document.querySelector('.map__pin--main');
 var pinsAdd = false;
 
-function mapButtonClickHandler() {
+// Перемещение маркера по карте;
+
+mapButton.addEventListener('mousedown', function(evt) {
   if (pinsAdd === false) {
     mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
     createPin(ADS_NUBMER);
@@ -127,29 +129,8 @@ function mapButtonClickHandler() {
     inputEnabled('select');
     pinsAdd = true;
   }
-}
-
-// mapButton.addEventListener('mouseup', mapButtonClickHandler);
-
-// Перемещение маркера по карте;
-
-mapButton.addEventListener('mousedown', function(evt) {
-  evt.preventDefault();
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var dragged = false;
-
-  function onMouseMove(moveEvt) {
-
-  }
-
-  console.log('OK');
-  console.log(startCoords);
 });
+
 
 // Определение координат большой кнопки-метки на карте;
 function mapButtonPosition() {
