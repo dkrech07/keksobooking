@@ -8,6 +8,8 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var ROOMS_NUMBER = 5;
 var GUESTS_NUMBER = 10;
+var MARKER_WIDTH = 62;
+var MARKER_HEIGHT = 82;
 var PIN_WIDTH = 40;
 var PIN_HEIGHT = 62;
 var MAP_BUTTON_WIDTH = 100;
@@ -119,6 +121,19 @@ var mapActive = document.querySelector('.map');
 var mapButton = document.querySelector('.map__pin--main');
 var pinsAdd = false;
 
+// Передача значения в поле формы Адрес;
+var inputAddress = document.querySelector('#address');
+
+// Определение координат большой кнопки-метки на карте;
+function mapButtonPosition() {
+  return {
+    x: mapButton.offsetLeft + MAP_BUTTON_WIDTH / 2,
+    y: mapButton.offsetTop + MAP_BUTTON_WIDTH / 2
+  }
+}
+
+inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
+
 // Перемещение маркера по карте;
 
 mapButton.addEventListener('mousedown', function(evt) {
@@ -158,6 +173,8 @@ mapButton.addEventListener('mousedown', function(evt) {
 
     mapButton.style.top = (mapButton.offsetTop - shift.y) + 'px';
     mapButton.style.left = (mapButton.offsetLeft - shift.x) + 'px';
+
+    inputAddress.value = ('По оси X: ' + startCoodrs.x) + (', по оси Y: ' + startCoodrs.y);
   };
 
   // Обрабатываю событие отпускания кнопки мыши;
@@ -182,19 +199,6 @@ mapButton.addEventListener('mousedown', function(evt) {
   document.addEventListener('mouseup', onMouseUp);
 
 });
-
-
-// Определение координат большой кнопки-метки на карте;
-function mapButtonPosition() {
-  return {
-    x: mapButton.offsetLeft + MAP_BUTTON_WIDTH / 2,
-    y: mapButton.offsetTop + MAP_BUTTON_WIDTH / 2
-  }
-}
-
-// Передача значения в поле формы Адрес;
-var inputAddress = document.querySelector('#address');
-inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 
 // Отключение активности полей, до тех пор, пока неактивна квартира (select, fieldset);
 function inputDisabled(selector) {
