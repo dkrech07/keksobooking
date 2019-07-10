@@ -119,7 +119,28 @@ function createAd(n) {
 // Активация карты;
 var mapActive = document.querySelector('.map');
 var mapButton = document.querySelector('.map__pin--main');
+var mapWrapper = document.querySelector('.map__pins');
 var pinsAdd = false;
+
+// Задаю ограничения для перемещения маркера
+
+var moveLimits = {
+  x: 1000,
+  y: 630
+}
+
+var {
+  bottom,
+  left
+} = mapWrapper.getBoundingClientRect()
+
+// Переворачиваю координаты (делаю отсчет с левого нижнего угла);
+function reverseCoords(x, y) {
+  return {
+    x: x - left,
+    y: bottom - y
+  }
+}
 
 // Передача значения в поле формы Адрес;
 var inputAddress = document.querySelector('#address');
@@ -154,6 +175,9 @@ mapButton.addEventListener('mousedown', function(evt) {
     y: evt.clientY
   };
 
+  // Переворачиваю координаты;
+  reverseCoords(evt.clientX, evt.clientY);
+
   var dragged = false;
 
   // Перемещаю мышкой маркер по экрану;
@@ -174,7 +198,9 @@ mapButton.addEventListener('mousedown', function(evt) {
     mapButton.style.top = (mapButton.offsetTop - shift.y) + 'px';
     mapButton.style.left = (mapButton.offsetLeft - shift.x) + 'px';
 
-    inputAddress.value = ('По оси X: ' + startCoodrs.x) + (', по оси Y: ' + startCoodrs.y);
+    var pos = reverseCoords(startCoodrs.x, startCoodrs.y);
+
+    inputAddress.value = ('По оси X: ' + pos.x) + (', по оси Y: ' + pos.y);
   };
 
   // Обрабатываю событие отпускания кнопки мыши;
