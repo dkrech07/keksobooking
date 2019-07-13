@@ -125,8 +125,10 @@ var pinsAdd = false;
 // Задаю ограничения для перемещения маркера
 
 var moveLimits = {
-  x: 1000,
-  y: 630
+  top: 150,
+  bottom: 650,
+  left: 25,
+  right: 1175
 }
 
 var {
@@ -195,8 +197,23 @@ mapButton.addEventListener('mousedown', function(evt) {
       y: moveEvt.clientY
     };
 
-    mapButton.style.top = (mapButton.offsetTop - shift.y) + 'px';
-    mapButton.style.left = (mapButton.offsetLeft - shift.x) + 'px';
+    var mapButtonCoords = {
+      y: mapButton.offsetTop - shift.y,
+      x: mapButton.offsetLeft - shift.x
+    }
+
+    if (mapButtonCoords.x < moveLimits.left) {
+      mapButtonCoords.x = moveLimits.left;
+    } else if (mapButtonCoords.x > moveLimits.right) {
+      mapButtonCoords.x = moveLimits.right;
+    } else if (mapButtonCoords.y > moveLimits.bottom) {
+      mapButtonCoords.y = moveLimits.bottom;
+    } else if (mapButtonCoords.y < moveLimits.top) {
+      mapButtonCoords.y = moveLimits.top;
+    }
+
+    mapButton.style.top = mapButtonCoords.y + 'px';
+    mapButton.style.left = mapButtonCoords.x + 'px';
 
     var pos = reverseCoords(startCoodrs.x, startCoodrs.y);
 
