@@ -1,4 +1,4 @@
-// pin.js — модуль, который отвечает за перемещение маркера — метки на карте;
+// marker.js — модуль, который отвечает за перемещение маркера — метки на карте;
 
 (function() {
 
@@ -43,7 +43,6 @@
   inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 
   // Перемещение маркера по карте;
-
   mapButton.addEventListener('mousedown', function(evt) {
 
     // Проверяю, что карта еще не активна;
@@ -106,7 +105,6 @@
     };
 
     // Обрабатываю событие отпускания кнопки мыши;
-
     var onMouseUp = function(upEvt) {
       upEvt.preventDefault();
 
