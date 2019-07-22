@@ -8,13 +8,12 @@
   var ENTER_KEYCODE = 13;
 
   window.data = {
-    isFocus: false,
-    adsNumber: 8
+    adsNumber: 8 // Количество объектов-объявлений в сформированном массиве;
   }
 
-  console.log(window.data.adsNumber);
+  // console.log(window.data.adsNumber);
 
-  // var isFocus = false;
-  // var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
+  var isFocus = false;
+
 
 })();

@@ -2,18 +2,21 @@
 
 (function() {
 
+  var PIN_WIDTH = 40;
+  var PIN_HEIGHT = 62;
+
   // Создание D0M-элементов (пинов) на основе массива объектов adsAll;
-  function createPin(n) {
+  window.createPin = function(n) {
     var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
     var pinList = document.createDocumentFragment(); // Фрагмент для новыйх пинов;
     for (var i = 0; i < n; i++) { // Цикл для добавления Пинов в DocumentFragment;
       var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
       // Меняею атрибуты через DOM API: cвойства style, src, alt;
-      pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
-      pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
-      pinElement.querySelector('img').src = adsAll[i].author.avatar;
-      pinElement.querySelector('img').alt = adsAll[i].offer.title;
+      pinElement.style.left = (window.adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
+      pinElement.style.top = (window.adsAll[i].location.y - PIN_HEIGHT) + 'px';
+      pinElement.querySelector('img').src = window.adsAll[i].author.avatar;
+      pinElement.querySelector('img').alt = window.adsAll[i].offer.title;
       pinElement.id = i;
       pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
