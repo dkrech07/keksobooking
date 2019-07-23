@@ -4,6 +4,7 @@
 (function() {
 
   // СПИСОК КОНСТАНТ
+  var ADS_NUBMER = 8; // Количество объектов-объявлений в сформированном массиве;
   var MIN_X = 80;
   var MAX_X = 1000;
   var MIN_Y = 200;
@@ -12,8 +13,6 @@
   var MAX_PRICE = 1000000;
   var ROOMS_NUMBER = 5;
   var GUESTS_NUMBER = 10;
-  var MARKER_WIDTH = 62;
-  var MARKER_HEIGHT = 82;
 
   // СПИСОК МАССИВОВ И ОБЪЕКТОВ
   var DESCRIPTION_APARTAMENT = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый гостевой домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
@@ -22,17 +21,14 @@
   var CHECK_OUT = ["12:00", "13:00", "14:00"];
   var FEATURES_LIST = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
   var PHOTOS_RANDOM = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-  var TYPE_HOUSING_RU = {
-    palace: "Дворец",
-    flat: "Квартира",
-    house: "Дом",
-    bungalo: "Бунгало"
-  };
 
   // СПИСОК ПЕРЕМЕННЫХ
   var featureUnique = []; // Генерирую массив случайных особенностей;
-  var similarAds = {}; // Обявление. Оъект в который будут записаны данные после выполнения цикла for;
   var adsArray = []; // Массив объявлений. В него будут записаны сгенерированные объекты;
+  var similarAds = {}; // Обявление. Оъект в который будут записаны данные после выполнения цикла for;
+
+  // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ;  
+  window.adsAll = createAd(ADS_NUBMER); // Созданный в функции массив объявлений с объектами;
 
   // Генерация случайного числа с округлением, полученное значение всегда меньше n;
   function getRandom(n) {
@@ -95,7 +91,7 @@
           checkin: CHECK_IN[getRandom(CHECK_IN.length)], // Случайное время заезда, формируется из массива CHECK_IN;
           checkout: CHECK_OUT[getRandom(CHECK_OUT.length)], // Случайное время выезда, формируется из массива CHECK_OUT;
           description: '',
-          features: getFeatureList(FEATURES_LIST), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
+          features: getFeatureList(featureUnique), //Получаю из массива случайных особенностей массив с перемешанными случайным образом особенностями и случайной длины;
           photos: shuffleArray(PHOTOS_RANDOM) //С помощью алгоритма Фишера-Йейтса получаю массив с перетасованными элементами;
         },
         location: {
@@ -107,5 +103,5 @@
     }
     return adsArray; // Возвращаю заполненный после выполнения цикла массиив;
   }
-  window.adsAll = createAd(window.data.adsNumber); // Созданный в функции массив объявлений с объектами;
+
 })();

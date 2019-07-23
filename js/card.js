@@ -2,26 +2,13 @@
 
 (function() {
 
-  // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
-  function removePopUp() {
-    var mapElements = document.querySelector('.map');
-    var popUp = document.querySelector('.map__card');
-    if (popUp) {
-      mapElements.removeChild(popUp);
-    }
-  }
-
-  // Закрываю попап при нажатии на ESC;
-  function popupEscPressHandler(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      removePopUp();
-    }
+  // СПИСОК КОНСТАНТ
+  var TYPE_HOUSING_RU = {
+    palace: "Дворец",
+    flat: "Квартира",
+    house: "Дом",
+    bungalo: "Бунгало"
   };
-
-  // Закрываю попап при нажатии на крестик 'popup__close';
-  function popUpCloseHandler(evt) {
-    removePopUp();
-  }
 
   // Создение DOM-элементов для списка удобств;
   function featureCreateAll(featureCard) { // На вход нужно получить массив со списком удобств;
@@ -62,20 +49,22 @@
     var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
     var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
     //Заменяю содержимое карточки данными из массива объектов;
-    popupCard.querySelector('.popup__title').textContent = adsAll[i].offer.title; // Заголовок объявления;
-    popupCard.querySelector('.popup__text--address').textContent = adsAll[i].offer.address; // Адрес;
-    popupCard.querySelector('.popup__text--price').textContent = adsAll[i].offer.price + ' ₽/ночь'; // Цена;
-    popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
-    popupCard.querySelector('.popup__text--capacity').textContent = adsAll[i].offer.rooms + ' комнаты для ' + adsAll[i].offer.guests + ' гостей.';
-    popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + adsAll[i].offer.checkin + ', Выезд до: ' + adsAll[i].offer.checkout;
+    popupCard.querySelector('.popup__title').textContent = window.adsAll[i].offer.title; // Заголовок объявления;
+    popupCard.querySelector('.popup__text--address').textContent = window.adsAll[i].offer.address; // Адрес;
+    popupCard.querySelector('.popup__text--price').textContent = window.adsAll[i].offer.price + ' ₽/ночь'; // Цена;
+    popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[window.adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
+    popupCard.querySelector('.popup__text--capacity').textContent = window.adsAll[i].offer.rooms + ' комнаты для ' + window.adsAll[i].offer.guests + ' гостей.';
+    popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + window.adsAll[i].offer.checkin + ', Выезд до: ' + window.adsAll[i].offer.checkout;
     removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
-    popupCard.querySelector('.popup__features').appendChild(featureCreateAll(adsAll[i].offer.features)); // Добавляю список удобств на карточку;
-    popupCard.querySelector('.popup__description').textContent = adsAll[i].offer.description;
+    popupCard.querySelector('.popup__features').appendChild(featureCreateAll(window.adsAll[i].offer.features)); // Добавляю список удобств на карточку;
+    popupCard.querySelector('.popup__description').textContent = window.adsAll[i].offer.description;
     removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
-    popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
-    popupCard.querySelector('.popup__avatar').src = adsAll[i].author.avatar;
-    var newCard = mapActive.appendChild(popupCard); // Добавил карточку на карту;
+    popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(window.adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
+    popupCard.querySelector('.popup__avatar').src = window.adsAll[i].author.avatar;
+    var newCard = window.marker.mapActive.appendChild(popupCard); // Добавил карточку на карту;
     return newCard;
   }
+
+  console.log(popupElement(7));
 
 })();
