@@ -56,7 +56,7 @@
     // Проверяю, что карта еще не активна;
     if (pinsAdd === false) {
       window.marker.mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
-      window.createPin(window.ADS_NUBMER);
+      window.createPin(window.data.adsNumber);
       window.inputEnabled('fieldset');
       window.inputEnabled('select');
       pinsAdd = true;

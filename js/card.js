@@ -49,18 +49,18 @@
     var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
     var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
     //Заменяю содержимое карточки данными из массива объектов;
-    popupCard.querySelector('.popup__title').textContent = window.adsAll[i].offer.title; // Заголовок объявления;
-    popupCard.querySelector('.popup__text--address').textContent = window.adsAll[i].offer.address; // Адрес;
-    popupCard.querySelector('.popup__text--price').textContent = window.adsAll[i].offer.price + ' ₽/ночь'; // Цена;
-    popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[window.adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
-    popupCard.querySelector('.popup__text--capacity').textContent = window.adsAll[i].offer.rooms + ' комнаты для ' + window.adsAll[i].offer.guests + ' гостей.';
-    popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + window.adsAll[i].offer.checkin + ', Выезд до: ' + window.adsAll[i].offer.checkout;
+    popupCard.querySelector('.popup__title').textContent = window.utils.adsAll[i].offer.title; // Заголовок объявления;
+    popupCard.querySelector('.popup__text--address').textContent = window.utils.adsAll[i].offer.address; // Адрес;
+    popupCard.querySelector('.popup__text--price').textContent = window.utils.adsAll[i].offer.price + ' ₽/ночь'; // Цена;
+    popupCard.querySelector('.popup__type').textContent = TYPE_HOUSING_RU[window.utils.adsAll[i].offer.type]; // Тип жилья: нахожу тип жилья из массива TYPE_HOUSING и подставляю его в качестве ключа в объект TYPE_HOUSING_RU;
+    popupCard.querySelector('.popup__text--capacity').textContent = window.utils.adsAll[i].offer.rooms + ' комнаты для ' + window.utils.adsAll[i].offer.guests + ' гостей.';
+    popupCard.querySelector('.popup__text--time').textContent = 'Заезд после: ' + window.utils.adsAll[i].offer.checkin + ', Выезд до: ' + window.utils.adsAll[i].offer.checkout;
     removeChild(popupCard.querySelector('.popup__features')); // Удаляю дефолтный список удобств из шаблона;
-    popupCard.querySelector('.popup__features').appendChild(featureCreateAll(window.adsAll[i].offer.features)); // Добавляю список удобств на карточку;
-    popupCard.querySelector('.popup__description').textContent = window.adsAll[i].offer.description;
+    popupCard.querySelector('.popup__features').appendChild(featureCreateAll(window.utils.adsAll[i].offer.features)); // Добавляю список удобств на карточку;
+    popupCard.querySelector('.popup__description').textContent = window.utils.adsAll[i].offer.description;
     removeChild(popupCard.querySelector('.popup__pictures')); // Удаляю дефолтный список элементов под фотографии из шаблона;
-    popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(window.adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
-    popupCard.querySelector('.popup__avatar').src = window.adsAll[i].author.avatar;
+    popupCard.querySelector('.popup__pictures').appendChild(photoCreateAll(window.utils.adsAll[i].offer.photos)); // Вывожу в карточку фотографии;
+    popupCard.querySelector('.popup__avatar').src = window.utils.adsAll[i].author.avatar;
     var newCard = window.marker.mapActive.appendChild(popupCard); // Добавил карточку на карту;
     return newCard;
   }

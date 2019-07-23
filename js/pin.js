@@ -31,10 +31,10 @@
       var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
       // Меняею атрибуты через DOM API: cвойства style, src, alt;
-      pinElement.style.left = (adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
-      pinElement.style.top = (adsAll[i].location.y - PIN_HEIGHT) + 'px';
-      pinElement.querySelector('img').src = adsAll[i].author.avatar;
-      pinElement.querySelector('img').alt = adsAll[i].offer.title;
+      pinElement.style.left = (window.utils.adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
+      pinElement.style.top = (window.utils.adsAll[i].location.y - PIN_HEIGHT) + 'px';
+      pinElement.querySelector('img').src = window.utils.adsAll[i].author.avatar;
+      pinElement.querySelector('img').alt = window.utils.adsAll[i].offer.title;
       pinElement.id = i;
       pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
