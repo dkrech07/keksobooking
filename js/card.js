@@ -45,7 +45,7 @@
   }
 
   // Наполняю карточку объявлениями;
-  function popupElement(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
+  window.popupElement = function(i) { // В зависимости от i от 0 до 7, получаем соответствующий объект из созданного выше массива удобств;
     var cardTemplate = document.querySelector("template").content.querySelector('.map__card'); // Отловил карточку (поп-ап) объявлениея;
     var popupCard = cardTemplate.cloneNode(true); // Склонировал карточку объявления;
     //Заменяю содержимое карточки данными из массива объектов;
@@ -64,7 +64,5 @@
     var newCard = window.marker.mapActive.appendChild(popupCard); // Добавил карточку на карту;
     return newCard;
   }
-
-  console.log(popupElement(7));
 
 })();

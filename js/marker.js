@@ -50,5 +50,89 @@
   // Передаю стартовые координаты маркера в поле формы;
   inputAddress.value = 'По оси X: ' + mapButtonPosition().x + ', по оси Y: ' + mapButtonPosition().y;
 
+  // Перемещение маркера по карте;
+  mapButton.addEventListener('mousedown', function(evt) {
+
+    // Проверяю, что карта еще не активна;
+    if (pinsAdd === false) {
+      window.marker.mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
+      window.createPin(window.ADS_NUBMER);
+      window.inputEnabled('fieldset');
+      window.inputEnabled('select');
+      pinsAdd = true;
+    }
+
+    // При клике по маркеру, определяю стартовые координаты;
+    // И объявляю переменную dragged;
+    var startCoodrs = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    // Переворачиваю координаты;
+    reverseCoords(evt.clientX, evt.clientY);
+
+    var dragged = false;
+
+    // Перемещаю мышкой маркер по экрану;
+    var onMouseMove = function(moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: startCoodrs.x - moveEvt.clientX,
+        y: startCoodrs.y - moveEvt.clientY
+      };
+
+      startCoodrs = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var mapButtonCoords = {
+        y: mapButton.offsetTop - shift.y,
+        x: mapButton.offsetLeft - shift.x
+      }
+
+      if (mapButtonCoords.x < moveLimits.left) {
+        mapButtonCoords.x = moveLimits.left;
+      } else if (mapButtonCoords.x > moveLimits.right) {
+        mapButtonCoords.x = moveLimits.right;
+      } else if (mapButtonCoords.y > moveLimits.bottom) {
+        mapButtonCoords.y = moveLimits.bottom;
+      } else if (mapButtonCoords.y < moveLimits.top) {
+        mapButtonCoords.y = moveLimits.top;
+      }
+
+      mapButton.style.top = mapButtonCoords.y + 'px';
+      mapButton.style.left = mapButtonCoords.x + 'px';
+
+      var pos = reverseCoords(startCoodrs.x, startCoodrs.y);
+
+      inputAddress.value = ('По оси X: ' + pos.x) + (', по оси Y: ' + pos.y);
+    };
+
+    // Обрабатываю событие отпускания кнопки мыши;
+
+    var onMouseUp = function(upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function(evt) {
+          evt.preventDefault();
+          mapButton.removeEventListener('click', onClickPreventDefault)
+        };
+        mapButton.addEventListener('click', onClickPreventDefault);
+      }
+    };
+
+    // Отлавливаю на документе события перемещения мыши и отпускания кнопки мыши;
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+  });
 
 })();
