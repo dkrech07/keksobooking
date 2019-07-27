@@ -44,17 +44,7 @@
       pinElement.id = i;
       pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
 
-      // Отлавливаю событие клика на пине;
-      pinElement.addEventListener('click', pinClickHandler);
-      // Отлавливаю событие нажатия ENTER на пине;
-      pinElement.addEventListener('keydown', function(evt) {
-        if (evt === ENTER_KEYCODE) {
-          pinClickHandler;
-        }
-      });
-      // Отлавливаю нажатие на ESC;
-      document.addEventListener('keydown', popupEscPressHandler);
-
+      // Отлавливаю id элемента, по которому производится клик;
       var pinClickHandler = function(evt) {
         var target = evt.currentTarget; // Передаем значение из evt в переменную target;
         var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
@@ -70,9 +60,21 @@
           }
         });
       }
+
+      // Отлавливаю событие клика на пине;
+      pinElement.addEventListener('click', pinClickHandler);
+      // Отлавливаю событие нажатия ENTER на пине;
+      pinElement.addEventListener('keydown', function(evt) {
+        if (evt === ENTER_KEYCODE) {
+          pinClickHandler;
+        }
+      });
+
+      // Отлавливаю нажатие на ESC;
+      document.addEventListener('keydown', popupEscPressHandler);
+
     }
-    return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
+    return document.querySelector(".map__pins").appendChild(pinList); // Добавил созданный DocumentFragment в блок для меток;
   }
 
-  console.log(window.createPin);
 })();
