@@ -7,15 +7,8 @@
   var PIN_WIDTH = 40;
   var PIN_HEIGHT = 62;
 
-  // Закрываю попап при нажатии на ESC;
-  function popupEscPressHandler(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      removePopUp();
-    }
-  };
-
   // Проверяем открытий попап на наличие; Удаляем предыдущий попап, при открытии нового;
-  function removePopUp() {
+  var removePopUp = function() {
     var mapElements = document.querySelector('.map');
     var popUp = document.querySelector('.map__card');
     if (popUp) {
@@ -23,6 +16,19 @@
     }
   }
 
+  // Закрываю попап при нажатии на ESC;
+  var popupEscPressHandler = function(evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      removePopUp();
+    }
+  };
+
+  // Закрываю попап при нажатии на крестик 'popup__close';
+  var popUpCloseHandler = function(evt) {
+    removePopUp();
+  }
+
+  // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ;
   // Создание D0M-элементов (пинов) на основе массива объектов adsAll;
   window.createPin = function(n) {
     var pinTemplate = document.querySelector('template').content.querySelector('.map__pin'); // Взял за основу разметку пина из template;
@@ -31,13 +37,12 @@
       var pinElement = pinTemplate.cloneNode(true); // Клонирую элемент из разметки;
 
       // Меняею атрибуты через DOM API: cвойства style, src, alt;
-      pinElement.style.left = (window.utils.adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
-      pinElement.style.top = (window.utils.adsAll[i].location.y - PIN_HEIGHT) + 'px';
-      pinElement.querySelector('img').src = window.utils.adsAll[i].author.avatar;
-      pinElement.querySelector('img').alt = window.utils.adsAll[i].offer.title;
+      pinElement.style.left = (window.adsAll[i].location.x - PIN_WIDTH / 2) + 'px';
+      pinElement.style.top = (window.adsAll[i].location.y - PIN_HEIGHT) + 'px';
+      pinElement.querySelector('img').src = window.adsAll[i].author.avatar;
+      pinElement.querySelector('img').alt = window.adsAll[i].offer.title;
       pinElement.id = i;
       pinList.appendChild(pinElement); // Добавляю склонированный элемент в DocumentFragment;
-
 
       // Отлавливаю событие клика на пине;
       pinElement.addEventListener('click', pinClickHandler);
@@ -50,7 +55,7 @@
       // Отлавливаю нажатие на ESC;
       document.addEventListener('keydown', popupEscPressHandler);
 
-      function pinClickHandler(evt) {
+      var pinClickHandler = function(evt) {
         var target = evt.currentTarget; // Передаем значение из evt в переменную target;
         var targetNumber = target.id; // Получаем значение из is-элемента (button) по которому произвели клик;
         removePopUp()
@@ -69,9 +74,5 @@
     return document.querySelector(".map__pins").appendChild(pinList); // Вставил созданный DocumentFragment в блок для меток;
   }
 
-  // Закрываю попап при нажатии на крестик 'popup__close';
-  function popUpCloseHandler(evt) {
-    removePopUp();
-  }
-
+  console.log(window.createPin);
 })();

@@ -3,7 +3,7 @@
 (function() {
 
   // Отключение активности полей форм, до тех пор, пока неактивна квартира (select, fieldset);
-  function inputDisabled(selector) {
+  var inputDisabled = function(selector) {
     var mapInputs = document.querySelectorAll(selector);
     for (var i = 0; i < mapInputs.length; i++) {
       mapInputs[i].disabled = true;
@@ -13,6 +13,7 @@
   inputDisabled('fieldset');
   inputDisabled('select');
 
+  // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ;
   // Включение активности полей, до тех пор, пока после того, как активирована карта;
   window.inputEnabled = function(selector) {
     var mapInputs = document.querySelectorAll(selector);

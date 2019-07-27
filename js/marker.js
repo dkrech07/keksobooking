@@ -4,16 +4,15 @@
 
   var MAP_BUTTON_WIDTH = 100;
   var MAP_BUTTON_HEIGHT = 100;
+  var PIN_NUMBER = 8;
 
   // Активация карты;
   var mapButton = document.querySelector('.map__pin--main');
   var mapWrapper = document.querySelector('.map__pins');
   var pinsAdd = false;
 
-  // ЭКСПОРТИРУЕМЫЕ ЗНАЧЕНИЯ;
-  window.marker = {
-    mapActive: document.querySelector('.map')
-  }
+  // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ
+  window.mapActive = document.querySelector('.map');
 
   // Задаю ограничения для перемещения маркера
   var moveLimits = {
@@ -29,7 +28,7 @@
   } = mapWrapper.getBoundingClientRect()
 
   // Переворачиваю координаты (делаю отсчет с левого нижнего угла);
-  function reverseCoords(x, y) {
+  var reverseCoords = function(x, y) {
     return {
       x: x - left,
       y: bottom - y
@@ -40,7 +39,7 @@
   var inputAddress = document.querySelector('#address');
 
   // Определение координат большой кнопки-метки на карте;
-  function mapButtonPosition() {
+  var mapButtonPosition = function() {
     return {
       x: mapButton.offsetLeft + MAP_BUTTON_WIDTH / 2,
       y: mapButton.offsetTop + MAP_BUTTON_WIDTH / 2
@@ -55,8 +54,8 @@
 
     // Проверяю, что карта еще не активна;
     if (pinsAdd === false) {
-      window.marker.mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
-      window.createPin(window.data.adsNumber);
+      mapActive.classList.remove('map--faded'); // удалил класс, блокирующий карту;
+      window.createPin(PIN_NUMBER);
       window.inputEnabled('fieldset');
       window.inputEnabled('select');
       pinsAdd = true;
@@ -132,7 +131,6 @@
     // Отлавливаю на документе события перемещения мыши и отпускания кнопки мыши;
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-
   });
 
 })();
