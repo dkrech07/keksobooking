@@ -69,6 +69,20 @@
     return array;
   }
 
+  // Получение данных с сервера;
+  var photosArray = [];
+
+  var successHandler = function(data) {
+    window.adsAll = data;
+    console.log(data);
+  };
+
+  var errorHandler = function(errorMessage) {
+
+  };
+
+  window.backend.load(successHandler, errorHandler);
+
   // Генерация массива предложений;
   function createAd(n) {
     for (var i = 0; i < n; i++) { //Цикл пробегает по объекту от i до i < ADS_NUBMER, 8 = 0,1,2,3,4,5,6,7;
@@ -101,8 +115,8 @@
     return adsArray; // Возвращаю заполненный после выполнения цикла массиив;
   }
 
-  // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ;
-  window.adsAll = createAd(ADS_NUBMER);
+  // // ЭКСПОРТИРУЕМОЕ ЗНАЧЕНИЕ;
+  // window.adsAll = createAd(ADS_NUBMER);
 
   console.log(window.adsAll);
 

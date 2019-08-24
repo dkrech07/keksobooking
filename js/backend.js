@@ -5,7 +5,7 @@
   window.backend = {
     load: function(onLoad, onError) {
 
-      var URL = 'https://js.dump.academy/kekstagram/data';
+      var URL = 'https://js.dump.academy/keksobooking/data';
 
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
@@ -48,6 +48,9 @@
   // // параметр передаётся набор полученных данных
 
   // тестовый код, нужно будет удалить
-  window.backend.load(function(data) {}, function() {});
+  // window.backend.load(function(data) {
+  //   console.log(data);
+  //
+  // }, function() {});
 
 })();
