@@ -70,7 +70,6 @@
   }
 
   // Получение данных с сервера;
-  var photosArray = [];
 
   var successHandler = function(data) {
     window.adsAll = data;
