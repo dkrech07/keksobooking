@@ -1,4 +1,7 @@
 (function() {
+
+
+
   window.backend = {
     load: function(onLoad, onError) {
 
@@ -8,9 +11,12 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function() {
-        console.log(xhr.readyState);
-        console.log(xhr.status + xhr.statusText); // вывожу код ответа сервера в консоль;
-        console.log(xhr.response);
+
+        // // Вывожу данные полученные с сервера в консоль:
+        // console.log(xhr.readyState);
+        // console.log(xhr.status);
+        // console.log(xhr.response);
+
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
@@ -37,16 +43,11 @@
     }
   };
 
+  // // onLoad — функция обратного вызова, которая срабатывает при успешном
+  // // выполнении запроса. При вызове функции onLoad в её единственный
+  // // параметр передаётся набор полученных данных
+
   // тестовый код, нужно будет удалить
-  function pokachat() {
-
-  };
-
-  function test() {
-
-  };
-  window.backend.load(function(item) {
-
-  });
+  window.backend.load(function(data) {}, function() {});
 
 })();
