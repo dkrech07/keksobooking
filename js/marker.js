@@ -4,7 +4,7 @@
 
   var MAP_BUTTON_WIDTH = 100;
   var MAP_BUTTON_HEIGHT = 100;
-  var PIN_NUMBER = 8;
+  var PIN_NUMBER = 10;
 
   // Активация карты;
   var mapButton = document.querySelector('.map__pin--main');
